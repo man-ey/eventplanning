@@ -1,0 +1,157 @@
+@charset "ISO-8859-1";
+
+/* TODO
+    -Fontsizes plus colors
+    -header styling
+    -header functions as hyperlinks
+    -footer left/right border
+    -Mark what is going to be static and what is generated
+    -Meta tags
+    -Add explanation on CSSheet
+    -correct charset
+    -remove backgroundcolors (at the moment for understanding)
+*/
+
+
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+}
+
+
+.container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 60px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+}
+
+.containerSearchbar {
+      width: 60%;
+      position: relative;
+      display: flex;
+      justify-content: right;
+}
+
+header {
+      color: blue;
+      background-color: grey;
+      padding: 20px 0;
+      margin-bottom: 40px;
+
+      /* texttransforms etc dann hier */
+
+      border-bottom: 3px solid blue;
+      display: flex;
+      justify-content: space-between;
+}
+
+header nav ul {
+      display: flex;
+      align-items: baseline;
+      list-style-type: none;
+}
+
+header nav li {
+      margin-right: 15px;
+}
+
+::placeholder {
+  color: grey;
+}
+
+header input {
+      border-color: red;
+      text-align: left;
+
+      width: 400px;
+      height: 30px;
+      background-color: white;
+
+
+      /* font weight etc noch einstellen */
+
+      border-radius: 0.5em 0 0 0.5em;
+}
+
+header button {
+      width: 40px;
+      height: 30px;
+      border: 1px solid #00B4CC;
+      background: #00B4CC;
+      text-align: center;
+      color: #fff;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      font-size: 20px;
+}
+
+.mainWrapper {
+      display: flex;
+}
+
+.mainDisplay {
+      flex: 3;
+      background-color: grey;
+}
+
+.mainDisplay h2 {
+      font-size: 32px;
+      margin: 1rem 0;
+      color: red;
+}
+
+.mainDisplay ul {
+      list-style-type: none;
+      margin-top: 1rem;
+}
+
+.mainDisplay ul > li {
+      padding: 0.25rem;
+}
+
+.sidebar {
+      padding: 20px;
+      flex: 1;
+      margin-right: 60px;
+      border-top: 3px solid green;
+      background-color: grey;
+}
+
+.sidebar ul {
+      list-style-type: none;
+      margin-top: 1.5rem;
+      font-size: 0.75rem 0;
+}
+
+.sidebar ul > li {
+      padding: 0.5em 0;
+}
+
+footer {
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 60px;
+      background-color: #9f9c9c;
+}
+
+footer p {
+      color: white;
+      font-size: 12px;
+      padding: 10px;
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  
+  .mainDisplay {
+    margin-right: 0;
+    margin-bottom: 60px;
+  }
+}
