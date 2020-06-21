@@ -1,12 +1,15 @@
 //start monitoring searchbar on keypress
 window.onkeyup = keyup;
 
+
 //Text in searchbar
 var searchBarInput;
+
 
 function keyup(e) {
   //updating the string
   searchBarInput = e.target.value;
+
 
   //if loop starting when pressing enter
   if (e.keyCode == 13) {
