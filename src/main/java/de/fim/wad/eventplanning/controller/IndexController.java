@@ -40,7 +40,7 @@ public class IndexController {
             name = "DEPP";
         ArrayList<Event> events = new ArrayList<>();
         JavaH2Server server = new JavaH2Server("jdbc:h2:~/test", "sa", "");
-        ResultSet eventResult = server.getEvents();
+        ResultSet eventResult = server.getAllEvents();
 
         if(eventResult != null){
             try{
