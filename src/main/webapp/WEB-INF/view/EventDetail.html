@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>EventPlanning</title>
+    <!-- bootstrap scaling order -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Custom StyleSheet for the page -->
+    <link rel="stlyesheetForHomepage"
+          type="text/css"
+          href="src/main/resources/CSS/StyleSheetForHomepage.css"/>
+    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/HomepageJS.javascript"></script>
+</head>
+<body>
+
+<!-- Header on top of the site -->
+<nav class="navbar sticky-top navbar-dark bg-dark" id="header">
+    <a href="eventplanning/" class="navbar-brand">EventPlanning</a>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+    </form>
+</nav>
+
+<!-- Main Body of the page -->
+<div class="container">
+
+    <!-- Sidebar and MainDisplaying-Window-->
+    <div class="row" id="mainScreen">
+
+        <!-- Sidebar containing functions (static) -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
+            <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
+            <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
+                <a class="dropdown-item" href="eventplanning/createevent">Event bekannt machen</a>
+                <a class="dropdown-item" href="eventplanning/newestevents">Neueste Events</a>
+                <a class="dropdown-item" href="eventplanning/toptwenty">Hottest 20</a>
+            </div>
+        </div>
+        <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        </aside>
+
+        <!-- Main display for interactions and displaying -->
+        <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
+            <h2 th:text="${eventName}"></h2>
+            <table class="table-responsive">
+                <thead>
+                <tr>
+                    <th scope="col">What's going down?</th>
+                    <th scope="col">Where?</th>
+                    <th scope="col">When?</th>
+                    <th scope="col">Perfect weather?</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event: ${eventsByDate}">
+                    <th th:text="${eventDescription}"></th>
+                    <th th:text="${eventLocation"></th>
+                    <th th:text="${eventDate}"></th>
+                    <th th:text="${eventWeather}"></th>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Footer
+    <footer class="page-footer font-small blue pt-4">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                    <h5 class="text-uppercase">Footer Content (TODO)</h5>
+                    <p>(ToDO?)</p>
+                </div>
+
+                <hr class="clearfix w-100 d-md-none pb-3">
+
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase">Links</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 2</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase">Links</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 2</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a>Nice Meme</a>
+        </div>
+    </footer>
+</div> -->
+
+<!-- Required for Bootstrap -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
