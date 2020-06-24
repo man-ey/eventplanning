@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.*;
 
 public class WeatherAPI {
     final static String BASE_URL = "https://www.metaweather.com/api/location/";
     final static String SEARCHBYNAME_URL = "https://www.metaweather.com/api/location/search/?query=";
     final static String SEARCHBYLATLNG_URL = "https://www.metaweather.com/api/location/search/?lattlong=";
 
-    public void MyGETRequest() throws IOException {
-        String url = BASE_URL + "676757";
+    public void weatherRequest(int woeid) throws IOException {
+        String url = BASE_URL + woeid;
         URL urlForGetRequest = new URL(url);
-        String readLine = null;
+        String readLine;
         HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
         connection.setRequestMethod("GET");
-        //connection.setRequestProperty("userId", "a1bcdef"); // set userId its a sample here
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(
@@ -24,57 +24,58 @@ public class WeatherAPI {
             StringBuffer response = new StringBuffer();
             while ((readLine = in .readLine()) != null) {
                 response.append(readLine);
-            } in .close();
-            // print result
+            }
+            in .close();
             System.out.println("JSON String Result " + response.toString());
-            //GetAndPost.POSTRequest(response.toString());
         } else {
             System.out.println("GET NOT WORKED");
         }
     }
 
-    public String searchByName(String name) throws IOException{
-        String result = "error";
+    public int searchByName(String name) throws IOException{
         String urlString = SEARCHBYNAME_URL + name;
-        URL url = new URL(urlString);
-        String readLine = null;
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        int responseCode = connection.getResponseCode();
-        if(responseCode==HttpURLConnection.HTTP_OK){
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer response = new StringBuffer();
-            while ((readLine = in.readLine()) != null){
-                response.append(readLine);
-            }
-            in.close();
-            System.out.println(response.toString());
-        }
-        return result;
+        String result = getJson(urlString);
+        weatherRequest(getWoeidFromJson(result));
+        return getWoeidFromJson(result);
     }
 
-    public String searchByLocation(double lat, double lng) throws IOException{
-        String result = "error";
+    public int searchByLocation(double lat, double lng) throws IOException{
         String urlString = SEARCHBYLATLNG_URL + lat + "," + lng;
+        String result = getJson(urlString);
+        weatherRequest(getWoeidFromJson(result));
+        return getWoeidFromJson(result);
+    }
+
+    private String getJson(String urlString) throws IOException {
+        String result;
         URL url = new URL(urlString);
-        String readLine = null;
+        String readLine;
+        StringBuilder response = new StringBuilder();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
         if(responseCode==HttpURLConnection.HTTP_OK){
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer response = new StringBuffer();
             while ((readLine = in.readLine()) != null){
                 response.append(readLine);
             }
             in.close();
             System.out.println(response.toString());
         }
+        result = response.toString();
         return result;
     }
 
-    private String getWoeidFromJson(String json){
-        String woeid = "";
+    private int getWoeidFromJson(String json){
+        int woeid = -1;
+        JSONArray array = new JSONArray(json);
+        JSONObject obj = null;
+        if(array.length()!=0){
+            obj = (JSONObject) array.get(0);
+        }
+        if(obj != null){
+            woeid = obj.getInt("woeid");
+        }
         return woeid;
     }
 }
