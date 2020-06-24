@@ -31,9 +31,18 @@
       font-size: 32px;
       margin: 1rem 0;
       color: red;
+      text-align: center;
 }
 th {
   padding: 0 10px;
+}
+#buttonLike{
+    border: none;
+    color: green;
+}
+#buttonDislike {
+    border: none;
+    color: red;
 }
 
 

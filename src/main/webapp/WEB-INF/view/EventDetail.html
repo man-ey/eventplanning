@@ -52,6 +52,7 @@
                     <th scope="col">Where?</th>
                     <th scope="col">When?</th>
                     <th scope="col">Perfect weather?</th>
+                    <th scope="col">Who's going?</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,6 +61,11 @@
                     <th th:text="${eventLocation"></th>
                     <th th:text="${eventDate}"></th>
                     <th th:text="${eventWeather}"></th>
+                    <th th:text="${eventLikes}">
+                        <button id="buttonLike" onclick="updateLike()">+</button>
+                        <button id="buttonDislike" onlick="updateDislike()">-</button>
+                        <span th:text="${eventDisikes}"></span>
+                    </th>
                 </tr>
                 </tbody>
             </table>
@@ -104,8 +110,8 @@
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a>Nice Meme</a>
         </div>
-    </footer>
-</div> -->
+    </footer> -->
+</div>
 
 <!-- Required for Bootstrap -->
 <!-- Optional JavaScript -->
