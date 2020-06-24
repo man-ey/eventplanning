@@ -29,7 +29,7 @@ public class JavaH2Server {
     }
 
     public ResultSet getEventsByName(String name){
-        String query = "SELECT * FROM events WHERE name LIKE '%" + name + "'%";
+        String query = "SELECT * FROM events WHERE name LIKE '%" + name + "%'";
         ResultSet result = null;
         try{
             Statement statement = connection.createStatement();
@@ -42,7 +42,7 @@ public class JavaH2Server {
     }
 
     public ResultSet getEventsByLoaction(String location){
-        String query = "SELECT * FROM events WHERE location LIKE '%" + location + "'%";
+        String query = "SELECT * FROM events WHERE location LIKE '%" + location + "%'";
         ResultSet result = null;
         try{
             Statement statement = connection.createStatement();
