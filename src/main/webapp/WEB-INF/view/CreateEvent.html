@@ -10,8 +10,8 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="src/main/resources/CSS/StyleSheetEventsDetails.css"/>
-    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/DetailEventsJS.js"></script>
+          href="src/main/resources/CSS/StyleCreateEvent.css"/>
+    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/CreateEventJS.js"></script>
 </head>
 <body>
 
@@ -44,31 +44,39 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <h2 th:text="${event.name}"></h2>
-            <table class="table-responsive">
-                <thead>
-                <tr>
-                    <th scope="col">What's going down?</th>
-                    <th scope="col">Where?</th>
-                    <th scope="col">When?</th>
-                    <th scope="col">Perfect weather?</th>
-                    <th scope="col">Who's going?</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="event: ${eventsByDate}">
-                    <th th:text="${event.description}"></th>
-                    <th th:text="${event.location}"></th>
-                    <th th:text="${event.date}"></th>
-                    <th th:text="${event.forecast}"></th>
-                    <th th:text="${event.likes}">
-                        <button id="buttonLike" onclick="updateLike()">+</button>
-                        <button id="buttonDislike" onclick="updateDislike()">-</button>
-                        <span th:text="${event.dislikes}"></span>
-                    </th>
-                </tr>
-                </tbody>
-            </table>
+            <h2>Neues Event erstellen</h2>
+            <div id="inputContainer">
+                <form action="#" th:action="@{/createvent}" th:object="${createdEvent}" method="post">
+                    <div class="inputDivs" id="eventNameDiv">
+                        <p>Eventname</p>
+                        <input required type="text" placeholder="Name" th:field="*{eventName}">
+                    </div>
+                    <div class="inputDivs" id="eventLocationDiv">
+                        <p>Ort</p>
+                        <input required type="text" placeholder="Ort eingeben" th:field="*{eventLocation}">
+                        <select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
+                            <option value="" disabled selected>Art der Angabe</option>
+                            <option value="coord">Koordinaten</option>
+                            <option value="locName">Ortsname</option>
+                        </select>
+                    </div>
+                    <div class="inputDivs" id="eventDateDiv">
+                        <p>Datum</p>
+                        <input required type="date" placeholder="current date" th:field="*{eventDate}">
+                    </div>
+                    <div class="inputDivs" id="eventDescriptionInput">
+                        <p>Beschreibung</p>
+                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{eventDescription}">
+                    </div>
+                    <div class="inputDivs" id="eventTypDiv">
+                        <p>Eventtyp</p>
+                        <input required type="text" placeholder="Welche Art Event" th:field="*{eventType}">
+                    </div>
+                    <div id="divSubmit">
+                        <button type="submit" id="confirm">Event bekannt machen!</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </div>
 </div>

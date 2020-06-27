@@ -10,8 +10,8 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="src/main/resources/CSS/StyleSheetEventsDetails.css"/>
-    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/DetailEventsJS.js"></script>
+          href="src/main/resources/CSS/StyleSheetSearchingEvent.css"/>
+    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/HomepageJS.javascript"></script>
 </head>
 <body>
 
@@ -44,28 +44,20 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <h2 th:text="${event.name}"></h2>
+            <h2 th:inline="text">Suchergebnisse für [[${param.q}]]</h2>
             <table class="table-responsive">
                 <thead>
                 <tr>
-                    <th scope="col">What's going down?</th>
-                    <th scope="col">Where?</th>
-                    <th scope="col">When?</th>
-                    <th scope="col">Perfect weather?</th>
-                    <th scope="col">Who's going?</th>
+                    <th scope="col">Eventname</th>
+                    <th scope="col">Ort</th>
+                    <th scope="col">Datum</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event: ${eventsByDate}">
-                    <th th:text="${event.description}"></th>
+                <tr th:each="event: ${eventsSearchResult}">
+                    <th th:text="${event.name}"></th>
                     <th th:text="${event.location}"></th>
                     <th th:text="${event.date}"></th>
-                    <th th:text="${event.forecast}"></th>
-                    <th th:text="${event.likes}">
-                        <button id="buttonLike" onclick="updateLike()">+</button>
-                        <button id="buttonDislike" onclick="updateDislike()">-</button>
-                        <span th:text="${event.dislikes}"></span>
-                    </th>
                 </tr>
                 </tbody>
             </table>
