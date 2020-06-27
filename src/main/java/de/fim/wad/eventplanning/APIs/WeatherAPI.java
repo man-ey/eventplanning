@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+
 import org.json.*;
 
 public class WeatherAPI {
@@ -11,7 +13,7 @@ public class WeatherAPI {
     final static String SEARCHBYNAME_URL = "https://www.metaweather.com/api/location/search/?query=";
     final static String SEARCHBYLATLNG_URL = "https://www.metaweather.com/api/location/search/?lattlong=";
 
-    public void weatherRequest(int woeid) throws IOException {
+    private WeatherForecast[] weatherRequest(int woeid) throws IOException {
         String url = BASE_URL + woeid;
         URL urlForGetRequest = new URL(url);
         String readLine;
@@ -27,23 +29,66 @@ public class WeatherAPI {
             }
             in .close();
             System.out.println("JSON String Result " + response.toString());
+
+            JSONObject json = new JSONObject(response.toString());
+            JSONArray weatherArray = json.getJSONArray("consolidated_weather");
+            WeatherForecast[] weatherObjects = new WeatherForecast[weatherArray.length()];
+            for(int i = 0; i<weatherArray.length(); i++){
+                JSONObject responseObject = weatherArray.getJSONObject(i);
+                WEATHER weather;
+                switch(responseObject.getString("weather_state_abbr")){
+                    case "c": weather = WEATHER.CLEAR; break;
+                    case "lc": weather = WEATHER.LIGHT_CLOUD; break;
+                    case "hc": weather = WEATHER.HEAVY_CLOUD; break;
+                    case "s": weather = WEATHER.SHOWERS; break;
+                    case "lr": weather = WEATHER.LIGHT_RAIN; break;
+                    case "hr": weather = WEATHER.HEAVY_RAIN; break;
+                    case "t": weather = WEATHER.THUNDERSTORM; break;
+                    case "h": weather = WEATHER.HAIL; break;
+                    case "sl": weather = WEATHER.SLEET; break;
+                    case "sn": weather = WEATHER.SNOW; break;
+                    default: weather = WEATHER.CLEAR;
+                }
+                weatherObjects[i] = new WeatherForecast(
+                        responseObject.getString("applicable_date"),
+                        (int) responseObject.getDouble("min_temp"),
+                        (int) responseObject.getDouble("max_temp"),
+                        weather);
+            }
+        return weatherObjects;
         } else {
             System.out.println("GET NOT WORKED");
         }
+        return null;
     }
 
-    public int searchByName(String name) throws IOException{
+    public WeatherForecast[] getWeatherByName(String name) throws IOException{
         String urlString = SEARCHBYNAME_URL + name;
         String result = getJson(urlString);
-        weatherRequest(getWoeidFromJson(result));
-        return getWoeidFromJson(result);
+        WeatherForecast[] weather = weatherRequest(getWoeidFromJson(result));
+        for(WeatherForecast wf:weather){
+            System.out.println("date: " + wf.date);
+            System.out.println("min: " + wf.tempMin);
+            System.out.println("max: " + wf.tempMax);
+            System.out.println("weather: " + wf.weather.toString());
+            System.out.println("----");
+        }
+        return weather;
     }
 
-    public int searchByLocation(double lat, double lng) throws IOException{
+    public WeatherForecast[] getWeatherByLatLng(double lat, double lng) throws IOException{
         String urlString = SEARCHBYLATLNG_URL + lat + "," + lng;
         String result = getJson(urlString);
         weatherRequest(getWoeidFromJson(result));
-        return getWoeidFromJson(result);
+        WeatherForecast[] weather = weatherRequest(getWoeidFromJson(result));
+        for(WeatherForecast wf:weather){
+            System.out.println("date: " + wf.date);
+            System.out.println("min: " + wf.tempMin);
+            System.out.println("max: " + wf.tempMax);
+            System.out.println("weather: " + wf.weather.toString());
+            System.out.println("----");
+        }
+        return weather;
     }
 
     private String getJson(String urlString) throws IOException {
@@ -77,5 +122,31 @@ public class WeatherAPI {
             woeid = obj.getInt("woeid");
         }
         return woeid;
+    }
+
+    enum WEATHER{
+        CLEAR,
+        LIGHT_CLOUD,
+        HEAVY_CLOUD,
+        SHOWERS,
+        LIGHT_RAIN,
+        HEAVY_RAIN,
+        THUNDERSTORM,
+        HAIL,
+        SLEET,
+        SNOW
+    }
+
+    public class WeatherForecast{
+        String date;
+        int tempMax, tempMin;
+        WEATHER weather;
+
+        public WeatherForecast(String date, int tempMin, int tempMax, WEATHER weather) {
+            this.date = date;
+            this.tempMax = tempMax;
+            this.tempMin = tempMin;
+            this.weather = weather;
+        }
     }
 }
