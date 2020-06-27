@@ -29,3 +29,4 @@ function reDirect(target) {
 
 //Necessary javascriptline for the dropdownmenu
 $('.dropdown-toggle').dropdown()
+
