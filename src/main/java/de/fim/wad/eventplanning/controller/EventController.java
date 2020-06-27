@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -54,75 +55,60 @@ public class EventController {
 
 
     @GetMapping("/api/events")
-    public List<Event> getAllEvents() {
-        return eventService.getAll();
+    public List<EventDTO> getAllEvents() {
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : eventService.getAll()) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
     }
 
     @GetMapping("/api/eventtypes")
-    public List<EventType> getAllEventsTypes() {
-        return eventTypeService.getAll();
+    public List<EventTypeDTO> getAllEventsTypes() {
+        List<EventTypeDTO> result = new ArrayList<>();
+        for (EventType eventType : eventTypeService.getAll()) {
+            result.add(convertToEventTypeDTO(eventType));
+        }
+        return result;
     }
 
     @GetMapping("/api/newest")
-    public List<Event> newestTwenty() {
-        return eventService.newestTwenty();
+    public List<EventDTO> newestTwenty() {
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : eventService.newestTwenty()) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
     }
 
     @GetMapping("/init")
     public void initDB() throws ParseException {
         // initDB
-        EventType eventType1 = new EventType();
-        EventType eventType2 = new EventType();
-        EventType eventType3 = new EventType();
-        eventType1.setEventType("A");
-        eventType2.setEventType("B");
-        eventType3.setEventType("C");
-        eventTypeService.save(eventType1);
-        eventTypeService.save(eventType2);
-        eventTypeService.save(eventType3);
+        EventTypeDTO typ1 = new EventTypeDTO("A");
+        EventTypeDTO typ2 = new EventTypeDTO("B");
+        EventTypeDTO typ3 = new EventTypeDTO("C");
+        saveEventType(typ1);
+        saveEventType(typ2);
+        saveEventType(typ3);
 
-        Event event1 = new Event();
-        event1.setName("Event 1");
-        event1.setDescription("Best event");
-        event1.setLocation("Passau");
-        event1.setEventType(eventType2);
-        event1.setDate(new SimpleDateFormat("dd.mm.yyyy").parse("30.06.2020"));
-        event1.setLongitude(1);
-        event1.setLatitude(1);
-        event1.setLikes(1);
-        event1.setDislikes(3);
-        eventService.save(event1);
+        EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
+        EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
+        EventCreationDTO ev2 = new EventCreationDTO("Event2", "Sec Event", "31.12.2020", "Berlin", convertToEventType(typ2));
+        EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
+        EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
 
-        Event event3 = new Event();
-        event3.setName("Event 3");
-        event3.setDescription("Second event");
-        event3.setLocation("Berlin");
-        event3.setEventType(eventType1);
-        event3.setDate(new SimpleDateFormat("dd.mm.yyyy").parse("30.06.2022"));
-        event3.setLongitude(13);
-        event3.setLatitude(13);
-        event3.setLikes(3);
-        event3.setDislikes(1);
-        eventService.save(event3);
-
-        Event event2 = new Event();
-        event2.setName("Event 2");
-        event2.setDescription("Second event");
-        event2.setLocation("München");
-        event2.setEventType(eventType2);
-        event2.setDate(new SimpleDateFormat("dd.mm.yyyy").parse("30.06.2021"));
-        event2.setLongitude(22.2);
-        event2.setLatitude(22.2);
-        event2.setLikes(2);
-        event2.setDislikes(2);
-        eventService.save(event2);
+        saveEvent(ev1);
+        saveEvent(ev5);
+        saveEvent(ev2);
+        saveEvent(ev3);
+        saveEvent(ev4);
     }
 
-    public void saveEventType(EventType eventType) {
-        eventTypeService.save(eventType);
+    public void saveEventType(EventTypeDTO eventType) {
+        eventTypeService.save(convertToEventType(eventType));
     }
 
-    public void saveEvent(Event event) {
-        eventService.save(event);
+    public void saveEvent(EventCreationDTO event) {
+        eventService.save(convertToEvent(event));
     }
 }

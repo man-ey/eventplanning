@@ -26,6 +26,10 @@ public class EventDTO {
 
     private Timestamp creationTime;
 
+    public EventDTO() {
+
+    }
+
     public EventDTO(String name, String description, Date date, String location, EventType eventType, Double longitude,
                     Double latitude, int likes, int dislikes, Timestamp creationTime) throws ParseException {
         this.name = name;
