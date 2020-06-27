@@ -1,9 +1,13 @@
 package de.fim.wad.eventplanning.controller;
 
+import de.fim.wad.eventplanning.dto.EventCreationDTO;
+import de.fim.wad.eventplanning.dto.EventDTO;
+import de.fim.wad.eventplanning.dto.EventTypeDTO;
 import de.fim.wad.eventplanning.model.Event;
 import de.fim.wad.eventplanning.model.EventType;
 import de.fim.wad.eventplanning.service.EventService;
 import de.fim.wad.eventplanning.service.EventTypeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +23,35 @@ public class EventController {
 
     @Autowired
     private EventTypeService eventTypeService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public EventDTO convertToEventDTO(Event event) {
+        return modelMapper.map(event, EventDTO.class);
+    }
+
+    public EventTypeDTO convertToEventTypeDTO(EventType eventType) {
+        return modelMapper.map(eventType, EventTypeDTO.class);
+    }
+
+    public Event convertToEvent(EventDTO eventDTO) {
+        return modelMapper.map(eventDTO, Event.class);
+    }
+
+    public EventType convertToEventType(EventTypeDTO eventTypeDTO) {
+        return modelMapper.map(eventTypeDTO, EventType.class);
+    }
+
+    public Event convertToEvent(EventCreationDTO eventCreationDTO) {
+        Event event = modelMapper.map(eventCreationDTO, Event.class);
+        event.setLikes(0);
+        event.setDislikes(0);
+        return event;
+    }
+
+
+
 
     @GetMapping("/api/events")
     public List<Event> getAllEvents() {
