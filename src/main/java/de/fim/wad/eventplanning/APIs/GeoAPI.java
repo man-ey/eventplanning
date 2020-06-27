@@ -1,4 +1,4 @@
-package de.fim.wad.eventplanning.services;
+package de.fim.wad.eventplanning.APIs;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;

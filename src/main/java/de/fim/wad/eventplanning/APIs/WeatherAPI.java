@@ -1,4 +1,4 @@
-package de.fim.wad.eventplanning.services;
+package de.fim.wad.eventplanning.APIs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -138,15 +138,31 @@ public class WeatherAPI {
     }
 
     public class WeatherForecast{
-        String date;
-        int tempMax, tempMin;
-        WEATHER weather;
+        private String date; //YYYY-MM-DD
+        private int tempMax, tempMin;
+        private WEATHER weather;
 
         public WeatherForecast(String date, int tempMin, int tempMax, WEATHER weather) {
             this.date = date;
             this.tempMax = tempMax;
             this.tempMin = tempMin;
             this.weather = weather;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public int getTempMax() {
+            return tempMax;
+        }
+
+        public int getTempMin() {
+            return tempMin;
+        }
+
+        public WEATHER getWeather() {
+            return weather;
         }
     }
 }
