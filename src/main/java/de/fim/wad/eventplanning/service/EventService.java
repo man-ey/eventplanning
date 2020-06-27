@@ -22,7 +22,6 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-
     public List<Event> newestTwenty() {
         List<Event> newest = eventRepository.newest();
 
