@@ -8,7 +8,7 @@ import java.util.Date;
 public class EventDTO {
     private String name;
 
-    private Date date;
+    private Timestamp date;
 
     private String location;
 
@@ -30,7 +30,7 @@ public class EventDTO {
 
     }
 
-    public EventDTO(String name, String description, Date date, String location, EventType eventType, Double longitude,
+    public EventDTO(String name, String description, Timestamp date, String location, EventType eventType, Double longitude,
                     Double latitude, int likes, int dislikes, Timestamp creationTime) throws ParseException {
         this.name = name;
         this.description = description;
@@ -52,11 +52,11 @@ public class EventDTO {
         this.name = name;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

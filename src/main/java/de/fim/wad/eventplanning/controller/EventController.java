@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -90,9 +88,32 @@ public class EventController {
         return event;
     }
 
+    @GetMapping("/init")
+    private void initDB() throws ParseException, IOException {
+        if (isInit()) {
+            // initDB
+            EventTypeDTO typ1 = new EventTypeDTO("A");
+            EventTypeDTO typ2 = new EventTypeDTO("B");
+            EventTypeDTO typ3 = new EventTypeDTO("C");
+            saveEventType(typ1);
+            saveEventType(typ2);
+            saveEventType(typ3);
 
+            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
+            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
+            EventCreationDTO ev2 = new EventCreationDTO("PastEvent", "Sec Event", "31.12.2000", "Berlin", convertToEventType(typ2));
+            EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
+            EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
 
+            saveEvent(ev1);
+            saveEvent(ev5);
+            saveEvent(ev2);
+            saveEvent(ev3);
+            saveEvent(ev4);
+        }
+    }
 
+    // Interface
     @GetMapping("/api/events")
     public List<EventDTO> getAllEvents() {
         List<EventDTO> result = new ArrayList<>();
@@ -120,30 +141,7 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/init")
-    public void initDB() throws ParseException, IOException {
-        if (isInit()) {
-            // initDB
-            EventTypeDTO typ1 = new EventTypeDTO("A");
-            EventTypeDTO typ2 = new EventTypeDTO("B");
-            EventTypeDTO typ3 = new EventTypeDTO("C");
-            saveEventType(typ1);
-            saveEventType(typ2);
-            saveEventType(typ3);
 
-            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
-            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
-            EventCreationDTO ev2 = new EventCreationDTO("Event2", "Sec Event", "31.12.2020", "Berlin", convertToEventType(typ2));
-            EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
-            EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
-
-            saveEvent(ev1);
-            saveEvent(ev5);
-            saveEvent(ev2);
-            saveEvent(ev3);
-            saveEvent(ev4);
-        }
-    }
 
     public void saveEventType(EventTypeDTO eventType) {
         eventTypeService.save(convertToEventType(eventType));

@@ -1,6 +1,8 @@
 package de.fim.wad.eventplanning.dto;
 
 import de.fim.wad.eventplanning.model.EventType;
+
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +12,7 @@ public class EventCreationDTO {
 
     private String description;
 
-    private Date date;
+    private Timestamp date;
 
     private String location;
 
@@ -28,7 +30,7 @@ public class EventCreationDTO {
                             EventType eventType) throws ParseException {
         this.name = name;
         this.description = description;
-        this.date = new SimpleDateFormat("dd.mm.yyyy").parse(date);
+        this.date = new Timestamp(new SimpleDateFormat("dd.mm.yyyy").parse(date).getTime());
         this.location = location;
         this.eventType = eventType;
         this.longitude = longitude;
@@ -39,7 +41,7 @@ public class EventCreationDTO {
                             Double latitude) throws ParseException {
         this.name = name;
         this.description = description;
-        this.date = new SimpleDateFormat("dd.mm.yyyy").parse(date);
+        this.date = new Timestamp(new SimpleDateFormat("dd.mm.yyyy").parse(date).getTime());
         this.location = location;
         this.eventType = eventType;
         this.longitude = longitude;
@@ -62,11 +64,11 @@ public class EventCreationDTO {
         this.description = description;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

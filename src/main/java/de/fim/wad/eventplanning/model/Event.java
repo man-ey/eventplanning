@@ -11,7 +11,7 @@ import java.util.Date;
 public class Event {
     @Id
     private String name;
-    private Date date;
+    private Timestamp date;
     private String location;
     @ManyToOne
     private EventType eventType;
@@ -41,7 +41,7 @@ public class Event {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
