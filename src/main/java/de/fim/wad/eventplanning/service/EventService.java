@@ -1,6 +1,7 @@
 package de.fim.wad.eventplanning.service;
 
 import de.fim.wad.eventplanning.model.Event;
+import de.fim.wad.eventplanning.model.EventType;
 import de.fim.wad.eventplanning.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,20 @@ public class EventService {
 
     public boolean existsByID(String name) {
         return eventRepository.existsById(name);
+    }
+
+    public List<Event> filter(String eventType, int n) {
+        List<Event> filtered = eventRepository.filter(eventType);
+
+        List<Event> result = new ArrayList<>();
+
+        if (filtered.size() > n) {
+            for (int i = 0; i < n; i++) {
+                result.add(filtered.get(i));
+            }
+        } else {
+            result = filtered;
+        }
+        return result;
     }
 }

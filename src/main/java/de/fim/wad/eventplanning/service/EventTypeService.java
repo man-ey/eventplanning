@@ -1,5 +1,6 @@
 package de.fim.wad.eventplanning.service;
 
+import de.fim.wad.eventplanning.model.Event;
 import de.fim.wad.eventplanning.model.EventType;
 import de.fim.wad.eventplanning.repository.EventTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,13 @@ public class EventTypeService {
 
     public boolean existsByID(String name) {
         return eventTypeRepository.existsById(name);
+    }
+
+    public EventType find(String eventType) {
+        EventType result = null;
+        if (existsByID(eventType)) {
+            result = eventTypeRepository.findById(eventType).get();
+        }
+        return result;
     }
 }

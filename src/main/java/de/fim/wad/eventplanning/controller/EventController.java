@@ -100,7 +100,7 @@ public class EventController {
             saveEventType(typ3);
 
             EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
-            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
+            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ1));
             EventCreationDTO ev2 = new EventCreationDTO("PastEvent", "Sec Event", "31.12.2000",  convertToEventType(typ2), 13.389191, 52.50536);
             // EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
             // EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
@@ -189,6 +189,22 @@ public class EventController {
         } else {
             throw new IllegalArgumentException("Event already exists!");
         }
+    }
+
+    @RequestMapping("/filter")
+    public List<EventDTO> testFilter() {
+        EventType e1 = eventTypeService.find("A");
+        EventType e2 = eventTypeService.find("B");
+
+        return filterType(convertToEventTypeDTO(e2), 20);
+    }
+
+    public List<EventDTO> filterType(EventTypeDTO eventTypeDTO, int amount) {
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : eventService.filter(eventTypeDTO.getEventType(), amount)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
     }
 
     @RequestMapping("/events")  // Bonus REST
