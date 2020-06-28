@@ -165,6 +165,14 @@ public class EventController {
         }
     }
 
+    @GetMapping("/api/top")
+    public List<EventDTO> topThree() {
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : eventService.top(3)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
+    }
 
     public void saveEventType(EventTypeDTO eventType) {
         eventTypeService.save(convertToEventType(eventType));

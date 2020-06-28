@@ -39,9 +39,24 @@ public class EventService {
             for (int i = 0; i < n; i++) {
                 result.add(newest.get(i));
             }
-            return result;
         } else {
-            return newest;
+            result = newest;
         }
+        return result;
+    }
+
+    public List<Event> top(int n) {
+        List<Event> top = eventRepository.top();
+
+        List<Event> result = new ArrayList<>();
+
+        if (top.size() > n) {
+            for (int i = 0; i < n; i++) {
+                result.add(top.get(i));
+            }
+        } else {
+            result = top;
+        }
+        return result;
     }
 }
