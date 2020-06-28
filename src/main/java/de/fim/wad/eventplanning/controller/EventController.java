@@ -19,7 +19,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class EventController {
@@ -202,6 +204,37 @@ public class EventController {
     public List<EventDTO> filterType(EventTypeDTO eventTypeDTO, int amount) {
         List<EventDTO> result = new ArrayList<>();
         for (Event event : eventService.filter(eventTypeDTO.getEventType(), amount)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
+    }
+
+    @RequestMapping("/search")
+    public List<EventDTO> testSearch(@RequestParam("q") String query) {
+        return search(query);
+    }
+
+    public List<EventDTO> search(String query) {
+        if (query == null) {
+            throw new IllegalArgumentException("Empty query");
+        }
+
+        String[] queryWords = query.split(" ");
+
+        Set<Event>[] seperateQueryResults = new HashSet[queryWords.length];
+
+        for (int i = 0; i < queryWords.length; i++) {
+            seperateQueryResults[i] = eventService.search(queryWords[i]);
+        }
+
+        Set<Event> intersection = new HashSet<>(seperateQueryResults[0]);
+
+        for(int i = 0; i < queryWords.length; i++) {
+            intersection.retainAll(seperateQueryResults[i]);
+        }
+
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : intersection) {
             result.add(convertToEventDTO(event));
         }
         return result;

@@ -6,7 +6,9 @@ import de.fim.wad.eventplanning.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -89,6 +91,13 @@ public class EventService {
         } else {
             result = filtered;
         }
+        return result;
+    }
+
+    public Set<Event> search(String queryWord) {
+        Set<Event> result = new HashSet<>();
+        result.addAll(eventRepository.searchName(queryWord));
+        result.addAll(eventRepository.searchLocation(queryWord));
         return result;
     }
 }
