@@ -17,7 +17,7 @@
 #sidebar > button {
     width: 100%;
 }
-.dropdown-menu {
+#dropdownmenu {
     width: 93%;
 }
 
@@ -28,26 +28,39 @@
     margin: 1rem 0;
 }
 #display h2 {
-      font-size: 32px;
-      margin: 1rem 0;
-      color: red;
-      text-align: center;
-}
-th {
-  padding: 0 10px;
-}
-#buttonLike{
-    border: none;
-    color: green;
-}
-#buttonDislike {
-    border: none;
+    font-size: 32px;
+    margin: 1rem 0;
     color: red;
 }
-
+#divSubmit {
+    margin-left:2em;
+    margin-top: 3em;
+}
+#confirm {
+    background-color: white;
+    border-color: black;
+    height: 75px;
+    width: 275px;
+}
+#descriptionBox {
+    height: 250px;
+    width: 250px;
+}
+.inputDivs{
+    margin-top: 1.75em;
+}
 
 
 /* CSS for the footer */
+.footer-dark {
+    padding: 10px 0;
+    color: #f0f9ff;
+    background-color: #282d32;
+    position: relative;
+    clear: both;
+    margin-top: 10em;
+
+}
 #footerContainer {
     width : 100%;
     padding-right: 15px;
@@ -68,6 +81,7 @@ th {
     margin-bottom: 12px;
     font-weight: bold;
     font-size: 16px;
+
 }
 .footer-dark ul {
     padding: 0;

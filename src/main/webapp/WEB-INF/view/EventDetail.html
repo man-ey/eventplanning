@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>EventPlanning</title>
+    <title>Eventdetails</title>
     <!-- bootstrap scaling order -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -10,8 +10,8 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="src/main/resources/CSS/StyleSheetForHomepage.css"/>
-    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/HomepageJS.javascript"></script>
+          href="src/main/resources/CSS/StyleSheetEventsDetails.css"/>
+    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/DetailEventsJS.js"></script>
 </head>
 <body>
 
@@ -44,7 +44,7 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <h2 th:text="${eventName}"></h2>
+            <h2 th:inline="text">[[${parameter.name}]]</h2>
             <table class="table-responsive">
                 <thead>
                 <tr>
@@ -52,60 +52,48 @@
                     <th scope="col">Where?</th>
                     <th scope="col">When?</th>
                     <th scope="col">Perfect weather?</th>
+                    <th scope="col">Who's going?</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="event: ${eventsByDate}">
-                    <th th:text="${eventDescription}"></th>
-                    <th th:text="${eventLocation"></th>
-                    <th th:text="${eventDate}"></th>
-                    <th th:text="${eventWeather}"></th>
+                    <th th:text="${event.description}"></th>
+                    <th th:text="${event.location}"></th>
+                    <th th:text="${event.date}"></th>
+                    <th th:text="${event.forecast}"></th>
+                    <th th:text="${event.likes}">
+                        <button id="buttonLike" onclick="updateLike()">+</button>
+                        <button id="buttonDislike" onclick="updateDislike()">-</button>
+                        <span th:text="${event.dislikes}"></span>
+                    </th>
                 </tr>
                 </tbody>
             </table>
         </section>
     </div>
+</div>
 
-    <!-- Footer
-    <footer class="page-footer font-small blue pt-4">
-        <div class="container-fluid text-center text-md-left">
-            <div class="row">
-                <div class="col-md-6 mt-md-0 mt-3">
-                    <h5 class="text-uppercase">Footer Content (TODO)</h5>
-                    <p>(ToDO?)</p>
-                </div>
-
-                <hr class="clearfix w-100 d-md-none pb-3">
-
-                <div class="col-md-3 mb-md-0 mb-3">
-                    <h5 class="text-uppercase">Links</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#!">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 2</a>
-                        </li>
+<!-- Footer -->
+<div class="footer-dark">
+    <footer class="site-footer">
+        <div class="container" id="footerContainer">
+            <div class="row" id="footerRow">
+                <div class="col-sm-12 col-md-6 col-lg-6 item">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><button class="restart-button">Restart with no examples</button></li>
+                        <li><button class="restart-button">Restart with examples in DB</button></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-md-0 mb-3">
-                    <h5 class="text-uppercase">Links</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#!">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 2</a>
-                        </li>
-                    </ul>
+                <div class="col-md-6 col-xl-6 item text">
+                    <h3>EventPlanning</h3>
+                    <p id="description">Planen und sharen von Events auf einem anderen Niveau</p>
                 </div>
             </div>
-        </div>
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a>Nice Meme</a>
+            <p class="copyright">EventPlanning © 2020</p>
         </div>
     </footer>
-</div> -->
+</div>
 
 <!-- Required for Bootstrap -->
 <!-- Optional JavaScript -->
