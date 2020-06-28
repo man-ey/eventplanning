@@ -11,8 +11,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,23 +32,37 @@ public class EventController {
     @Autowired
     private ModelMapper modelMapper;
 
-    public EventDTO convertToEventDTO(Event event) {
+    @PostConstruct
+    private void readEventTypes() throws IOException {
+        FileReader fileReader = new FileReader("EventTypes.txt");
+
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        String line = "";
+
+        while ((line = bufferedReader.readLine()) != null) {
+            saveEventType(new EventTypeDTO(line));
+        }
+        bufferedReader.close();
+    }
+
+    private EventDTO convertToEventDTO(Event event) {
         return modelMapper.map(event, EventDTO.class);
     }
 
-    public EventTypeDTO convertToEventTypeDTO(EventType eventType) {
+    private EventTypeDTO convertToEventTypeDTO(EventType eventType) {
         return modelMapper.map(eventType, EventTypeDTO.class);
     }
 
-    public Event convertToEvent(EventDTO eventDTO) {
+    private Event convertToEvent(EventDTO eventDTO) {
         return modelMapper.map(eventDTO, Event.class);
     }
 
-    public EventType convertToEventType(EventTypeDTO eventTypeDTO) {
+    private EventType convertToEventType(EventTypeDTO eventTypeDTO) {
         return modelMapper.map(eventTypeDTO, EventType.class);
     }
 
-    public Event convertToEvent(EventCreationDTO eventCreationDTO) {
+    private Event convertToEvent(EventCreationDTO eventCreationDTO) {
         Event event = modelMapper.map(eventCreationDTO, Event.class);
         event.setLikes(0);
         event.setDislikes(0);
