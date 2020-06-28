@@ -10,6 +10,8 @@ import de.fim.wad.eventplanning.service.EventTypeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
@@ -90,10 +92,10 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/api/newest")
+    @GetMapping("/api/newest20")
     public List<EventDTO> newestTwenty() {
         List<EventDTO> result = new ArrayList<>();
-        for (Event event : eventService.newestTwenty()) {
+        for (Event event : eventService.newestN(20)) {
             result.add(convertToEventDTO(event));
         }
         return result;
@@ -128,5 +130,14 @@ public class EventController {
 
     public void saveEvent(EventCreationDTO event) {
         eventService.save(convertToEvent(event));
+    }
+
+    @RequestMapping("/events")  // Bonus REST
+    public List<EventDTO> getLastN(@RequestParam("n") int n) {
+        List<EventDTO> result = new ArrayList<>();
+        for (Event event : eventService.newestN(n)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
     }
 }

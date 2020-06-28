@@ -22,13 +22,13 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public List<Event> newestTwenty() {
+    public List<Event> newestN(int n) {
         List<Event> newest = eventRepository.newest();
 
         List<Event> result = new ArrayList<>();
 
-        if (newest.size() > 20) {
-            for (int i = 0; i < 20; i++) {
+        if (newest.size() > n) {
+            for (int i = 0; i < n; i++) {
                 result.add(newest.get(i));
             }
             return result;
