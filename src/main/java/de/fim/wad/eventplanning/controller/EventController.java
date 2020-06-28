@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -35,6 +36,11 @@ public class EventController {
     private ModelMapper modelMapper;
 
     @PostConstruct
+    private void config() throws IOException, ParseException {
+        readEventTypes();
+        initDB();
+    }
+
     private void readEventTypes() throws IOException {
         FileReader fileReader = new FileReader("EventTypes.txt");
 
@@ -46,6 +52,19 @@ public class EventController {
             saveEventType(new EventTypeDTO(line));
         }
         bufferedReader.close();
+    }
+
+    private boolean isInit() throws IOException {
+        FileReader fileReader = new FileReader("InitDB.txt");
+
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        boolean isInit = Boolean.parseBoolean(bufferedReader.readLine());
+
+        bufferedReader.close();
+
+        return isInit;
+
     }
 
     private EventDTO convertToEventDTO(Event event) {
@@ -102,26 +121,28 @@ public class EventController {
     }
 
     @GetMapping("/init")
-    public void initDB() throws ParseException {
-        // initDB
-        EventTypeDTO typ1 = new EventTypeDTO("A");
-        EventTypeDTO typ2 = new EventTypeDTO("B");
-        EventTypeDTO typ3 = new EventTypeDTO("C");
-        saveEventType(typ1);
-        saveEventType(typ2);
-        saveEventType(typ3);
+    public void initDB() throws ParseException, IOException {
+        if (isInit()) {
+            // initDB
+            EventTypeDTO typ1 = new EventTypeDTO("A");
+            EventTypeDTO typ2 = new EventTypeDTO("B");
+            EventTypeDTO typ3 = new EventTypeDTO("C");
+            saveEventType(typ1);
+            saveEventType(typ2);
+            saveEventType(typ3);
 
-        EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
-        EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
-        EventCreationDTO ev2 = new EventCreationDTO("Event2", "Sec Event", "31.12.2020", "Berlin", convertToEventType(typ2));
-        EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
-        EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
+            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
+            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ2));
+            EventCreationDTO ev2 = new EventCreationDTO("Event2", "Sec Event", "31.12.2020", "Berlin", convertToEventType(typ2));
+            EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
+            EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
 
-        saveEvent(ev1);
-        saveEvent(ev5);
-        saveEvent(ev2);
-        saveEvent(ev3);
-        saveEvent(ev4);
+            saveEvent(ev1);
+            saveEvent(ev5);
+            saveEvent(ev2);
+            saveEvent(ev3);
+            saveEvent(ev4);
+        }
     }
 
     public void saveEventType(EventTypeDTO eventType) {
