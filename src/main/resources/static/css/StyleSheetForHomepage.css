@@ -34,10 +34,8 @@
 th {
     padding: 0 10px;
 }
-#eventTypesButton {
-    background-color: white;
-    color: black;
-    border: none;
+tr:hover {
+    background: grey;
 }
 .scrollable-menu {
     height: auto;
@@ -108,4 +106,10 @@ th {
     opacity: 0.3;
     font-size: 13px;
     margin-bottom: 0;
+}
+#restartExamples {
+    color: red;
+}
+#restartNoEx {
+    color: green;
 }

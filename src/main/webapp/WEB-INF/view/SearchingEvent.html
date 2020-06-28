@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>EventPlanning</title>
+    <title>Suche nach Events</title>
     <!-- bootstrap scaling order -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -11,7 +11,7 @@
     <link rel="stlyesheetForHomepage"
           type="text/css"
           href="src/main/resources/CSS/StyleSheetSearchingEvent.css"/>
-    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/HomepageJS.javascript"></script>
+    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/SearchingEventsJS.js"></script>
 </head>
 <body>
 
@@ -55,7 +55,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="event: ${eventsSearchResult}">
-                    <th th:text="${event.name}"></th>
+                    <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
                     <th th:text="${event.location}"></th>
                     <th th:text="${event.date}"></th>
                 </tr>
@@ -73,9 +73,8 @@
                 <div class="col-sm-12 col-md-6 col-lg-6 item">
                     <h3>Services</h3>
                     <ul>
-                        <li>Event Sharing</li>
-                        <li>Event Planning</li>
-                        <li>Weather Forecast</li>
+                        <li><button id="restartExamples">Restart with no examples</button></li>
+                        <li><button id="restartNoEx">Restart with examples in DB</button></li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-xl-6 item text">

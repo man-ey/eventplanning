@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>EventPlanning</title>
+    <title>Event Erstellung</title>
     <!-- bootstrap scaling order -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -34,9 +34,9 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
             <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
             <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
-                <a class="dropdown-item" href="eventplanning/createevent">Event bekannt machen</a>
-                <a class="dropdown-item" href="eventplanning/newestevents">Neueste Events</a>
-                <a class="dropdown-item" href="eventplanning/toptwenty">Hottest 20</a>
+                <a class="dropdown-item" href="/eventplanning/createevent">Event bekannt machen</a>
+                <a class="dropdown-item" href="/eventplanning/newestevents">Neueste Events</a>
+                <a class="dropdown-item" href="/eventplanning/toptwenty">Hottest 20</a>
             </div>
         </div>
         <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -89,9 +89,8 @@
                 <div class="col-sm-12 col-md-6 col-lg-6 item">
                     <h3>Services</h3>
                     <ul>
-                        <li>Event Sharing</li>
-                        <li>Event Planning</li>
-                        <li>Weather Forecast</li>
+                        <li><button id="restartExamples">Restart with no examples</button></li>
+                        <li><button id="restartNoEx">Restart with examples in DB</button></li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-xl-6 item text">

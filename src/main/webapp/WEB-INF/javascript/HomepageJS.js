@@ -13,7 +13,7 @@ function keyup(e) {
 
   //if loop starting when pressing enter
   if (e.keyCode == 13) {
-      var destination = "?searchby=";
+      var destination = "?q=";
       destination = destination.concat(searchBarInput);
       reDirect(destination);
   }

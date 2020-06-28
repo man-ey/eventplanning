@@ -8,7 +8,7 @@ function keyup(e) {
     searchBarInput = e.target.value;
 
     if (e.keyCode == 13) {
-      var destination = "/search/?searchby=";
+        var destination = "?q=";
       destination = destination.concat(searchBarInput);
       reDirect(destination);
     }
