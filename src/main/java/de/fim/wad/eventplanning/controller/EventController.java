@@ -105,6 +105,8 @@ public class EventController {
             EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
             EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
 
+
+
             saveEvent(ev1);
             saveEvent(ev5);
             saveEvent(ev2);
@@ -141,6 +143,27 @@ public class EventController {
         return result;
     }
 
+    @RequestMapping("like")
+    public void like(@RequestParam("name") String eventName) {
+        Event event = eventService.find(eventName);
+        if (event != null) {
+            event.like();
+        } else {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+        eventService.update(event);
+    }
+
+    @RequestMapping("dislike")
+    public void dislike(@RequestParam("name") String eventName) {
+        Event event = eventService.find(eventName);
+        if (event != null) {
+            event.dislike();
+        } else {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+        eventService.update(event);
+    }
 
 
     public void saveEventType(EventTypeDTO eventType) {

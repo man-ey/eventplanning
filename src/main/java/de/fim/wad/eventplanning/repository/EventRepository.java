@@ -15,6 +15,7 @@ public interface EventRepository extends JpaRepository<Event, String> {
 
 
 
-    @Query(value = "select * from EVENT where date >= (System.current_date)order by creation_Time", nativeQuery = true)
+    @Query(value = "select * from event where (date >= '2019-11-11') order by creation_time", nativeQuery = true)
     List<Event> newest();
+
 }

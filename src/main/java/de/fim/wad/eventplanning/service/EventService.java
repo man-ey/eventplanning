@@ -22,6 +22,14 @@ public class EventService {
         return eventRepository.findAll();
     }
 
+    public Event find(String name) {
+        return eventRepository.findById(name).get();
+    }
+
+    public void update(Event event) {
+        eventRepository.save(event);
+    }
+
     public List<Event> newestN(int n) {
         List<Event> newest = eventRepository.newest();
 
