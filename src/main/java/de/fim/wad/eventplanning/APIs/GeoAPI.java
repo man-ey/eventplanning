@@ -8,7 +8,7 @@ import com.byteowls.jopencage.model.JOpenCageReverseRequest;
 
 public class GeoAPI {
 
-    public double[] locationToLatLng(String city){
+    public static double[] locationToLatLng(String city){
         JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("42899bd499af473fa69a6c33b6d84b5c");
         JOpenCageForwardRequest request = new JOpenCageForwardRequest(city);
         request.setMinConfidence(1);
@@ -22,7 +22,7 @@ public class GeoAPI {
         return new double[]{firstResultLatLng.getLat(), firstResultLatLng.getLng()};
     }
 
-    public String latLngtoCity(double lat, double lng){
+    public static String latLngtoCity(double lat, double lng){
         JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("42899bd499af473fa69a6c33b6d84b5c");
 
         JOpenCageReverseRequest request = new JOpenCageReverseRequest(lat, lng);
