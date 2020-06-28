@@ -145,24 +145,24 @@ public class EventController {
 
     @RequestMapping("like")
     public void like(@RequestParam("name") String eventName) {
-        Event event = eventService.find(eventName);
-        if (event != null) {
+        try {
+            Event event = eventService.find(eventName);
             event.like();
-        } else {
+            eventService.update(event);
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Event does not exist.");
         }
-        eventService.update(event);
     }
 
     @RequestMapping("dislike")
     public void dislike(@RequestParam("name") String eventName) {
-        Event event = eventService.find(eventName);
-        if (event != null) {
+        try {
+            Event event = eventService.find(eventName);
             event.dislike();
-        } else {
+            eventService.update(event);
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Event does not exist.");
         }
-        eventService.update(event);
     }
 
 
@@ -171,7 +171,7 @@ public class EventController {
     }
 
     public void saveEvent(EventCreationDTO event) {
-        eventService.save(convertToEvent(event));
+            eventService.save(convertToEvent(event));
     }
 
     @RequestMapping("/events")  // Bonus REST
