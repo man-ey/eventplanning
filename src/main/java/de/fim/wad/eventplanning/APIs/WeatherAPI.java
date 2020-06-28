@@ -141,6 +141,7 @@ public class WeatherAPI {
         private String date; //YYYY-MM-DD
         private int tempMax, tempMin;
         private WEATHER weather;
+        //todo add boolean if distance is small enough!
 
         public WeatherForecast(String date, int tempMin, int tempMax, WEATHER weather) {
             this.date = date;
