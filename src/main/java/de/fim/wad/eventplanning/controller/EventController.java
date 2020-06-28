@@ -145,22 +145,23 @@ public class EventController {
 
     @RequestMapping("like")
     public void like(@RequestParam("name") String eventName) {
-        try {
-            Event event = eventService.find(eventName);
+        Event event = eventService.find(eventName);
+        if (event != null) {
             event.like();
             eventService.update(event);
-        } catch (IllegalArgumentException e) {
+        } else {
             throw new IllegalArgumentException("Event does not exist.");
         }
     }
 
     @RequestMapping("dislike")
     public void dislike(@RequestParam("name") String eventName) {
-        try {
-            Event event = eventService.find(eventName);
+        Event event = eventService.find(eventName);
+        if (event != null) {
             event.dislike();
             eventService.update(event);
-        } catch (IllegalArgumentException e) {
+
+        } else {
             throw new IllegalArgumentException("Event does not exist.");
         }
     }

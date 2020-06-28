@@ -15,7 +15,11 @@ public class EventService {
 
 
     public void save(Event event) {
-        eventRepository.save(event);
+        if (existsByID(event.getName())) {
+            throw new IllegalArgumentException("Event already exists!");
+        } else {
+            eventRepository.save(event);
+        }
     }
 
     public List<Event> getAll() {
@@ -23,11 +27,19 @@ public class EventService {
     }
 
     public Event find(String name) {
-        return eventRepository.findById(name).get();
+        Event result = null;
+        if (existsByID(name)) {
+            result = eventRepository.findById(name).get();
+        }
+        return result;
     }
 
     public void update(Event event) {
-        eventRepository.save(event);
+        if (existsByID(event.getName())) {
+            eventRepository.save(event);
+        } else {
+            throw new IllegalArgumentException("Event does not exists");
+        }
     }
 
     public List<Event> newestN(int n) {
