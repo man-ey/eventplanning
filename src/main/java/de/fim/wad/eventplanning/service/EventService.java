@@ -59,4 +59,8 @@ public class EventService {
         }
         return result;
     }
+
+    public boolean existsByID(String name) {
+        return eventRepository.existsById(name);
+    }
 }

@@ -175,11 +175,19 @@ public class EventController {
     }
 
     public void saveEventType(EventTypeDTO eventType) {
-        eventTypeService.save(convertToEventType(eventType));
+        if (!eventTypeService.existsByID(eventType.getEventType())) {
+            eventTypeService.save(convertToEventType(eventType));
+        } else {
+            throw new IllegalArgumentException("Event already exists!");
+        }
     }
 
     public void saveEvent(EventCreationDTO event) {
+        if (!eventService.existsByID(event.getName())) {
             eventService.save(convertToEvent(event));
+        } else {
+            throw new IllegalArgumentException("Event already exists!");
+        }
     }
 
     @RequestMapping("/events")  // Bonus REST

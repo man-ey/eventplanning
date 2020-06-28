@@ -20,4 +20,8 @@ public class EventTypeService {
     public List<EventType> getAll() {
         return eventTypeRepository.findAll();
     }
+
+    public boolean existsByID(String name) {
+        return eventTypeRepository.existsById(name);
+    }
 }
