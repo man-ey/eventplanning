@@ -9,6 +9,8 @@ import de.fim.wad.eventplanning.service.EventService;
 import de.fim.wad.eventplanning.service.EventTypeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@RestController
+@Controller
 public class EventController {
 
     @Autowired
@@ -266,5 +268,27 @@ public class EventController {
             result.add(convertToEventDTO(event));
         }
         return result;
+    }
+
+    @RequestMapping("/")
+    public String homepage(Model model){
+        model.addAttribute("topTwenty", newestTwenty());
+        return "index";
+    }
+
+    @RequestMapping("/createEvent")
+    public String createNewEvent(Model model){
+        model.addAttribute("createdEvent", new EventCreationDTO());
+        return "CreateEvent";
+    }
+
+    @RequestMapping("/topTwenty")
+    public String topTwenty(){
+        return "TopTwenty";
+    }
+
+    @RequestMapping("/newestEvents")
+    public String newestEvents(){
+        return "index";
     }
 }
