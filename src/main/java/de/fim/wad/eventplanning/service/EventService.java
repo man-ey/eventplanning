@@ -46,33 +46,11 @@ public class EventService {
     }
 
     public List<Event> newestN(int n) {
-        List<Event> newest = eventRepository.newest();
-
-        List<Event> result = new ArrayList<>();
-
-        if (newest.size() > n) {
-            for (int i = 0; i < n; i++) {
-                result.add(newest.get(i));
-            }
-        } else {
-            result = newest;
-        }
-        return result;
+        return reduce(eventRepository.newest(), n);
     }
 
     public List<Event> top(int n) {
-        List<Event> top = eventRepository.top();
-
-        List<Event> result = new ArrayList<>();
-
-        if (top.size() > n) {
-            for (int i = 0; i < n; i++) {
-                result.add(top.get(i));
-            }
-        } else {
-            result = top;
-        }
-        return result;
+        return reduce(eventRepository.top(), n);
     }
 
     public boolean existsByID(String name) {
@@ -80,16 +58,18 @@ public class EventService {
     }
 
     public List<Event> filter(String eventType, int n) {
-        List<Event> filtered = eventRepository.filter(eventType);
+        return reduce(eventRepository.filter(eventType), n);
+    }
 
+    private List<Event> reduce(List<Event> events, int max) {
         List<Event> result = new ArrayList<>();
 
-        if (filtered.size() > n) {
-            for (int i = 0; i < n; i++) {
-                result.add(filtered.get(i));
+        if (events.size() > max) {
+            for (int i = 0; i < max; i++) {
+                result.add(events.get(i));
             }
         } else {
-            result = filtered;
+            result = events;
         }
         return result;
     }
