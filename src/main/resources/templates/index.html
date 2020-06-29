@@ -18,7 +18,7 @@
 <nav class="navbar sticky-top navbar-dark bg-dark" id="header">
     <a href="/" class="navbar-brand">EventPlanning</a>
     <form class="form-inline">
-        <input class="form-control mr-sm-2" type="input" placeholder="Eventsuche" aria-label="Search" id="searchbar">
+        <input class="form-control mr-sm-2" type="input" placeholder="Eventsuche" aria-label="Search" id="searchbar" onkeyup="keyup()">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
     </form>
 </nav>
@@ -48,7 +48,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filtern<span class="caret"></span></button>
                     <ul class="dropdown-menu scrollable-menu" role="menu" id="filterDropdown">
-                        <li th:each="EventDTO : ${allTypes}"><a th:href="@{'eventplanning/searching?q=' + ${EventDTO.getEventType()}}" th:text="${EventDTO.getEventType()}"></a></li>
+                        <li th:each="EventDTO : ${allTypes}"><a th:href="@{'searching?q=' + ${EventDTO.getEventType()}}" th:text="${EventDTO.getEventType()}"></a></li>
                     </ul>
                 </div>
             </h2>
@@ -64,7 +64,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="EventDTO: ${topTwenty}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
+                    <th> <a th:href="@{'detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
                     <th th:text="${EventDTO.location}"></th>
                     <th th:text="${EventDTO.date}"></th>
                 </tr>

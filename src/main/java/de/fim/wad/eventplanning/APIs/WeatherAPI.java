@@ -58,6 +58,7 @@ public class WeatherAPI {
         return weatherObjects;
         } else {
             System.out.println("GET NOT WORKED");
+            System.out.println(url);
         }
         return null;
     }
@@ -65,6 +66,8 @@ public class WeatherAPI {
     public WeatherForecast[] getWeatherByName(String name) throws IOException{
         String urlString = SEARCHBYNAME_URL + name;
         String result = getJson(urlString);
+        System.out.println(urlString);
+        System.out.println(result);
         WeatherForecast[] weather = weatherRequest(getWoeidFromJson(result));
         for(WeatherForecast wf:weather){
             System.out.println("date: " + wf.date);
@@ -112,6 +115,7 @@ public class WeatherAPI {
     }
 
     private int getWoeidFromJson(String json){
+        System.out.println(json);
         int woeid = -1;
         JSONArray array = new JSONArray(json);
         JSONObject obj = null;
@@ -164,6 +168,43 @@ public class WeatherAPI {
 
         public WEATHER getWeather() {
             return weather;
+        }
+
+        public String getWeatherTextDe(){
+            String result = "error";
+            switch (weather){
+                case CLEAR:
+                    result = "Sonnig";
+                    break;
+                case LIGHT_CLOUD:
+                    result = "Leicht bewöklt";
+                    break;
+                case HEAVY_CLOUD:
+                    result = "Bewölkt";
+                    break;
+                case SHOWERS:
+                    result = "Regen";
+                    break;
+                case LIGHT_RAIN:
+                    result = "Leicher Regen";
+                    break;
+                case HEAVY_RAIN:
+                    result = "Starker Regen";
+                    break;
+                case THUNDERSTORM:
+                    result = "Gewitter";
+                    break;
+                case HAIL:
+                    result = "Hagel";
+                    break;
+                case SLEET:
+                    result = "Schneeregen";
+                    break;
+                case SNOW:
+                    result = "Schnee";
+                    break;
+            }
+            return result;
         }
     }
 }

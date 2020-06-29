@@ -149,11 +149,12 @@
             <table class="table-responsive">
                 <thead>
                 <tr>
-                    <th scope="col">What's going down?</th>
-                    <th scope="col">Where?</th>
-                    <th scope="col">When?</th>
-                    <th scope="col">Perfect weather?</th>
-                    <th scope="col">Who's going?</th>
+                    <th scope="col">Beschreibung</th>
+                    <th scope="col">Ort</th>
+                    <th scope="col">Datum</th>
+                    <th scope="col">Wetter</th>
+                    <th scope="col">Likes</th>
+                    <th scope="col">Dislikes</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -161,8 +162,9 @@
                     <th th:text="${event.getDescription()}"></th>
                     <th th:text="${event.getLocation()}"></th>
                     <th th:text="${event.getDate()}"></th>
-
+                    <th th:text="${weather}"></th>
                     <th th:text="${event.getLikes()}">
+                    <th th:text="${event.getDislikes()}">
                         <button id="buttonLike" onclick="updateLike()">+</button>
                         <button id="buttonDislike" onclick="updateDislike()">-</button>
                         <span th:text="${event.getDislikes()}"></span>

@@ -1,5 +1,6 @@
 package de.fim.wad.eventplanning.controller;
 
+import de.fim.wad.eventplanning.APIs.WeatherAPI;
 import de.fim.wad.eventplanning.dto.EventCreationDTO;
 import de.fim.wad.eventplanning.dto.EventDTO;
 import de.fim.wad.eventplanning.dto.EventTypeDTO;
@@ -22,6 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -94,8 +96,8 @@ public class EventController {
     private Event convertToEvent(EventCreationDTO eventCreationDTO) {
         Event event = modelMapper.map(eventCreationDTO, Event.class);
 
-        event.setLikes(5);
-        event.setDislikes(2);
+        event.setLikes(0);
+        event.setDislikes(0);
         return event;
     }
 
@@ -113,11 +115,11 @@ public class EventController {
             saveEventType(typ3);
 
             EventCreationDTO ev1 = new EventCreationDTO("Event1",
-                    "First Event", "29.06.2020", "Passau",
+                    "First Event", "30.06.2020", "Frankfurt",
                     convertToEventType(typ2));
 
             EventCreationDTO ev5 = new EventCreationDTO("Event5",
-                    "Fifth Event", "31.12.2020", "München",
+                    "Fifth Event", "31.12.2020", "Munich",
                     convertToEventType(typ1));
 
             EventCreationDTO ev2 = new EventCreationDTO("PastEvent",
@@ -196,6 +198,16 @@ public class EventController {
         return result;
     }
 
+    @RequestMapping("/api/topTwenty")
+    public List<EventDTO> topTwenty() {
+        List<EventDTO> result = new ArrayList<>();
+
+        for (Event event : eventService.top(3)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
+    }
+
     public void saveEventType(EventTypeDTO eventType) {
         if (!eventTypeService.existsByID(eventType.getEventType())) {
             eventTypeService.save(convertToEventType(eventType));
@@ -231,10 +243,13 @@ public class EventController {
         return result;
     }
 
+    /*
     @RequestMapping("/search")
     public List<EventDTO> testSearch(@RequestParam("q") String query) {
         return search(query);
     }
+
+     */
 
     public List<EventDTO> search(String query) {
         if (query == null) {
@@ -304,10 +319,43 @@ public class EventController {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         model.addAttribute("event", event);
+
+        //weather
+        WeatherAPI weatherAPI = new WeatherAPI();
+        WeatherAPI.WeatherForecast[] weather = {};
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        boolean weatherFound = false;
+        if(event.getLocation() != null && event.getLocation().length() != 0){
+            try {
+                weather = weatherAPI.getWeatherByName(event.getLocation());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            try {
+                weather = weatherAPI.getWeatherByLatLng(event.getLatitude(), event.getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        for(WeatherAPI.WeatherForecast w : weather){
+            if(w.getDate().equals(format.format(event.getDate()))){
+                String weatherString = w.getWeatherTextDe() + ", " + w.getTempMin() + " °C bis " + w.getTempMax() + " °C";
+                model.addAttribute("weather", weatherString);
+                weatherFound = true;
+            }
+        }
+        if(!weatherFound){
+            model.addAttribute("weather", "Keine Wetterdaten gefunden");
+        }
+
         return "EventDetail";
     }
 
-    @RequestMapping("/searching")
+    @RequestMapping("/search")
     public String searching(Model model, HttpServletRequest request){
         String query = request.getParameter("q");
         Set<Event> events = eventService.search(query);
