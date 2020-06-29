@@ -46,12 +46,17 @@ public class EventController {
 
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        String line = "";
+        String typesString = bufferedReader.readLine();
 
-        while ((line = bufferedReader.readLine()) != null) {
-            saveEventType(new EventTypeDTO(line));
-        }
         bufferedReader.close();
+
+        typesString = typesString.replace(" ", "");
+
+        String[] types = typesString.split(",");
+
+        for (String type : types) {
+            saveEventType(new EventTypeDTO(type));
+        }
     }
 
     private boolean isInit() throws IOException {
