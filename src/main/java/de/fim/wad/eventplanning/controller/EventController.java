@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -92,8 +94,8 @@ public class EventController {
     private Event convertToEvent(EventCreationDTO eventCreationDTO) {
         Event event = modelMapper.map(eventCreationDTO, Event.class);
 
-        event.setLikes(0);
-        event.setDislikes(0);
+        event.setLikes(5);
+        event.setDislikes(2);
         return event;
     }
 
@@ -121,6 +123,7 @@ public class EventController {
             EventCreationDTO ev2 = new EventCreationDTO("PastEvent",
                     "Sec Event", "31.12.2000",  convertToEventType(typ2),
                     13.389191, 52.50536);
+
 
             saveEvent(ev1);
             saveEvent(ev5);
@@ -273,6 +276,7 @@ public class EventController {
     @RequestMapping("/")
     public String homepage(Model model){
         model.addAttribute("topTwenty", newestTwenty());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "index";
     }
 
@@ -283,12 +287,34 @@ public class EventController {
     }
 
     @RequestMapping("/topTwenty")
-    public String topTwenty(){
+    public String topTwenty(Model model){
+        model.addAttribute("topTwenty", topTwenty());
         return "TopTwenty";
     }
 
     @RequestMapping("/newestEvents")
-    public String newestEvents(){
+    public String newestEvents(Model model){
+        model.addAttribute("topTwenty", newestTwenty());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "index";
     }
+
+    @RequestMapping("/detail")
+    public String detail(Model model, HttpServletRequest request){
+        String eventName = request.getParameter("name");
+        Event event = eventService.find(eventName);
+        model.addAttribute("event", event);
+        return "EventDetail";
+    }
+
+    @RequestMapping("/searching")
+    public String searching(Model model, HttpServletRequest request){
+        String query = request.getParameter("q");
+        Set<Event> events = eventService.search(query);
+        model.addAttribute("events", events);
+        model.addAttribute("query", query);
+        return "SearchingEvent";
+    }
+
+    //q =
 }

@@ -44,7 +44,7 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <h2 th:inline="text">Suchergebnisse für [[${param.q}]]</h2>
+            <h2 th:inline="text">Suchergebnisse für [[${query}]]</h2>
             <table class="table-responsive">
                 <thead>
                 <tr>
@@ -54,10 +54,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event: ${eventsSearchResult}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
-                    <th th:text="${event.location}"></th>
-                    <th th:text="${event.date}"></th>
+                <tr th:each="event: ${events}">
+                    <th> <a th:href="@{'/detail?name=' + ${event.getName()}}" th:text="${event.getName()}"></a></th>
+                    <th th:text="${event.getLocation()}"></th>
+                    <th th:text="${event.getDate()}"></th>
                 </tr>
                 </tbody>
             </table>
