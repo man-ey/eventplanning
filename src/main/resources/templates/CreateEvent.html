@@ -10,7 +10,7 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="../css/StyleSheetCreateEvent.css"/>
+          href="../static/StyleSheetCreateEvent.css"/>
     <script type="text/javascript" src="../javascript/CreateEventJS.js"></script>
 </head>
 <body>
@@ -46,27 +46,27 @@
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
             <h2>Neues Event erstellen</h2>
             <div id="inputContainer">
-                <form action="#" th:action="@{/createvent}" th:object="${createdEvent}" method="post">
-                    <div class="inputDivs" id="eventNameDiv">
+                <form action="#" th:action="@{/createEvent}" th:object="${createdEvent}" method="post">
+                   <div class="inputDivs" id="eventNameDiv">
                         <p>Eventname</p>
-                        <input required type="text" placeholder="Name" th:field="*{eventName}">
+                        <input required type="text" placeholder="Name" th:field="*{name}">
                     </div>
                     <div class="inputDivs" id="eventLocationDiv">
                         <p>Ort</p>
-                        <input required type="text" placeholder="Ort eingeben" th:field="*{eventLocation}">
-                        <select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
+                        <input required type="text" placeholder="Ort eingeben" th:field="*{location}">
+         <!--               <select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
                             <option value="" disabled selected>Art der Angabe</option>
                             <option value="coord">Koordinaten</option>
                             <option value="locName">Ortsname</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="inputDivs" id="eventDateDiv">
                         <p>Datum</p>
-                        <input required type="date" placeholder="current date" th:field="*{eventDate}">
+                        <input required type="date" placeholder="current date" th:field="*{date}">
                     </div>
                     <div class="inputDivs" id="eventDescriptionInput">
                         <p>Beschreibung</p>
-                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{eventDescription}">
+                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{description}">
                     </div>
                     <div class="inputDivs" id="eventTypDiv">
                         <p>Eventtyp</p>
