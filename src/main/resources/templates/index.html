@@ -8,10 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- Custom StyleSheet for the page -->
-    <link rel="stlyesheetForHomepage"
-          type="text/css"
-          href="/StyleSheetForHomepage.css"/>
-    <script type="text/javascript" src="../javascript/HomepageJS.js"></script>
+    <link rel="stlyesheet" type="text/css"
+          th:href="@{/css/StyleSheetForHomepage.css}"/>
+    <script type="text/javascript" th:src="@{/javascript/HomepageJS.js}"></script>
 </head>
 <body>
 
@@ -19,7 +18,7 @@
 <nav class="navbar sticky-top navbar-dark bg-dark" id="header">
     <a href="/" class="navbar-brand">EventPlanning</a>
     <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
+        <input class="form-control mr-sm-2" type="input" placeholder="Eventsuche" aria-label="Search" id="searchbar">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
     </form>
 </nav>
@@ -49,7 +48,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filtern<span class="caret"></span></button>
                     <ul class="dropdown-menu scrollable-menu" role="menu" id="filterDropdown">
-                        <li th:each="EventDTO : ${topTwenty}"><a th:href="@{'eventplanning/searching?q=' + ${topTwenty.name}}"></a></li>
+                        <li th:each="EventDTO : ${allTypes}"><a th:href="@{'eventplanning/searching?q=' + ${EventDTO.getEventType()}}" th:text="${EventDTO.getEventType()}"></a></li>
                     </ul>
                 </div>
             </h2>
@@ -84,8 +83,8 @@
                 <div class="col-sm-12 col-md-6 col-lg-6 item">
                     <h3>Services</h3>
                     <ul>
-                        <li><button id="restartExamples">Restart with no examples</button></li>
-                        <li><button id="restartNoEx">Restart with examples in DB</button></li>
+                        <li>Coming Soon</button></li>
+                        <li>Coming too Soon</button></li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-xl-6 item text">

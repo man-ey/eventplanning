@@ -21,7 +21,7 @@ function keyup(e) {
 
 
 function reDirect(target) {
-    var domain = "http://localhost:8080/"
+    var domain = "http://localhost:8080/search"
     var destination = domain.concat(target);
     location.replace(destination);
 }

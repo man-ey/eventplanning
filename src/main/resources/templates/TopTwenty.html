@@ -10,8 +10,8 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="../static/StyleSheetTopTwenty.css"/>
-    <script type="text/javascript" src="../javascript/TopTwentyJS.js"></script>
+          href="../static/assets/css/StyleSheetTopTwenty.css"/>
+    <script type="text/javascript" src="../static/javascript/TopTwentyJS.js"></script>
 </head>
 <body>
 
@@ -58,11 +58,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event: ${eventsByLikes}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
-                    <th th:text="${event.location}"></th>
-                    <th th:text="${event.date}"></th>
-                    <th th:text="${event.likes}"></th>
+                <tr th:each="EventDTO: ${topTwenty}">
+                    <th> <a th:href="@{'eventplanning/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
+                    <th th:text="${EventDTO.location}"></th>
+                    <th th:text="${EventDTO.date}"></th>
+                    <th th:text="${EventDTO.likes}"></th>
                 </tr>
                 </tbody>
             </table>
