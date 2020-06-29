@@ -10,7 +10,7 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="../css/StyleSheetForHomepage.css"/>
+          href="/StyleSheetForHomepage.css"/>
     <script type="text/javascript" src="../javascript/HomepageJS.js"></script>
 </head>
 <body>
@@ -49,7 +49,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filtern<span class="caret"></span></button>
                     <ul class="dropdown-menu scrollable-menu" role="menu" id="filterDropdown">
-                        <li th:each="event : ${events}"><a th:href="@{'eventplanning/searching?q=' + ${event.type}}"></a></li>
+                        <li th:each="EventDTO : ${topTwenty}"><a th:href="@{'eventplanning/searching?q=' + ${topTwenty.name}}"></a></li>
                     </ul>
                 </div>
             </h2>
@@ -64,10 +64,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event: ${eventsByDate}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
-                    <th th:text="${event.location}"></th>
-                    <th th:text="${event.date}"></th>
+                <tr th:each="EventDTO: ${topTwenty}">
+                    <th> <a th:href="@{'eventplanning/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
+                    <th th:text="${EventDTO.location}"></th>
+                    <th th:text="${EventDTO.date}"></th>
                 </tr>
                 </tbody>
             </table>
