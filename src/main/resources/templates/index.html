@@ -1,75 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>StaticHomepage for overview</title>
+    <meta charset="utf-8">
+    <title>EventPlanning</title>
+    <!-- bootstrap scaling order -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="../static/css/StyleSheetForHomepage.css"/>
+          href="/StyleSheetForHomepage.css"/>
+    <script type="text/javascript" src="../javascript/HomepageJS.js"></script>
 </head>
 <body>
+
+<!-- Header on top of the site -->
+<nav class="navbar sticky-top navbar-dark bg-dark" id="header">
+    <a href="/" class="navbar-brand">EventPlanning</a>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+    </form>
+</nav>
+
+<!-- Main Body of the page -->
 <div class="container">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/test">Logo/Homepageclick</a> </li>
-                <li><a href="#">andere funktion noch?</a></li>
-                <li><a href="#">?</a></li>
-            </ul>
-        </nav>
-        <div class="containerSearchbar">
-            <input type="text" id="searchBar" placeholder="Suchbar">
-            <button type="submit" class="searchButton">
-                <i class="fa fa-search"></i>
-                GO
-            </button>
+
+    <!-- Sidebar and MainDisplaying-Window-->
+    <div class="row" id="mainScreen">
+
+        <!-- Sidebar containing functions (static) -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
+            <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
+            <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
+                <a class="dropdown-item" href="/createEvent">Event bekannt machen</a>
+                <a class="dropdown-item" href="/newestEvents">Neueste Events</a>
+                <a class="dropdown-item" href="/topTwenty">Hottest 20</a>
+            </div>
         </div>
-    </header>
-    <div class="mainWrapper">
-        <aside class="sidebar">
-            <h2>Sidebar</h2>
-            <ul>
-                <li><a href="#">Funktion 1</a></li>
-                <li><a href="#">Funktion 2</a></li>
-                <li><a href="#">Funktion 3</a></li>
-                <li><a href="#">Funktion 4</a></li>
-            </ul>
+        <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
         </aside>
 
+        <!-- Main display for interactions and displaying -->
+        <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
+            <!-- header of the main display + a scrolldown menu for fitlering -->
+            <h2>Events
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filtern<span class="caret"></span></button>
+                    <ul class="dropdown-menu scrollable-menu" role="menu" id="filterDropdown">
+                        <li th:each="EventDTO : ${topTwenty}"><a th:href="@{'eventplanning/searching?q=' + ${topTwenty.name}}"></a></li>
+                    </ul>
+                </div>
+            </h2>
 
-        <section class="mainDisplay">
-            <h2>Hauptdarstellungsfenster</h2>
-            <p>Auflistungen etc (Das hier ist paragraph)</p>
-            <ul>
-                <li>Event 1</li>
-                <li>Event 2</li>
-                <li>Event 3</li>
-                <li>Event 4</li>
-                <li>Event 5</li>
-                <li>Event 6</li>
-                <li>Event 7</li>
-                <li>Event 8</li>
-                <li>Event 9</li>
-                <li>Event 10</li>
-                <li>Event 11</li>
-                <li>Event 12</li>
-                <li>Event 13</li>
-                <li>Event 14</li>
-                <li>Event 15</li>
-                <li>Event 16</li>
-                <li>Event 17</li>
-                <li>Event 18</li>
-                <li>Event 19</li>
-                <li>Event 20</li>
-            </ul>
+            <!-- table displaying events and little info about them -->
+            <table class="table-responsive">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Ort</th>
+                    <th scope="col">Datum</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="EventDTO: ${topTwenty}">
+                    <th> <a th:href="@{'eventplanning/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
+                    <th th:text="${EventDTO.location}"></th>
+                    <th th:text="${EventDTO.date}"></th>
+                </tr>
+                </tbody>
+            </table>
         </section>
     </div>
 </div>
 
 
-<footer>
-    <h3>Footer</h3>
-    <p>Falls ben?tigt</p>
-</footer>
+<!-- Footer -->
+<div class="footer-dark">
+    <footer class="site-footer">
+        <div class="container" id="footerContainer">
+            <div class="row" id="footerRow">
+                <div class="col-sm-12 col-md-6 col-lg-6 item">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><button id="restartExamples">Restart with no examples</button></li>
+                        <li><button id="restartNoEx">Restart with examples in DB</button></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-xl-6 item text">
+                    <h3>EventPlanning</h3>
+                    <p id="description">Planen und sharen von Events auf einem anderen Niveau</p>
+                </div>
+            </div>
+            <p class="copyright">EventPlanning © 2020</p>
+        </div>
+    </footer>
+</div>
+
+
+<!-- Required for Bootstrap -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

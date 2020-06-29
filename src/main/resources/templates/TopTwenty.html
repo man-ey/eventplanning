@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Suche nach Events</title>
+    <title>Beliebteste Events</title>
     <!-- bootstrap scaling order -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -10,14 +10,14 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="src/main/resources/CSS/StyleSheetSearchingEvent.css"/>
-    <script type="text/javascript" src="src/main/resources/webapp/WEB-INF/javascript/SearchingEventsJS.js"></script>
+          href="../static/StyleSheetTopTwenty.css"/>
+    <script type="text/javascript" src="../javascript/TopTwentyJS.js"></script>
 </head>
 <body>
 
 <!-- Header on top of the site -->
 <nav class="navbar sticky-top navbar-dark bg-dark" id="header">
-    <a href="eventplanning/" class="navbar-brand">EventPlanning</a>
+    <a href="/" class="navbar-brand">EventPlanning</a>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
@@ -34,9 +34,9 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
             <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
             <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
-                <a class="dropdown-item" href="eventplanning/createevent">Event bekannt machen</a>
-                <a class="dropdown-item" href="eventplanning/newestevents">Neueste Events</a>
-                <a class="dropdown-item" href="eventplanning/toptwenty">Hottest 20</a>
+                <a class="dropdown-item" href="/createEvent">Event bekannt machen</a>
+                <a class="dropdown-item" href="/newestEvents">Neueste Events</a>
+                <a class="dropdown-item" href="/topTwenty">Hottest 20</a>
             </div>
         </div>
         <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -44,26 +44,32 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <h2 th:inline="text">Suchergebnisse für [[${param.q}]]</h2>
+            <!-- header of the main display -->
+            <h2>Meist gelikedte Events</h2>
+
+            <!-- table displaying events and little info about them -->
             <table class="table-responsive">
                 <thead>
                 <tr>
-                    <th scope="col">Eventname</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Ort</th>
                     <th scope="col">Datum</th>
+                    <th scope="col">likes</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event: ${eventsSearchResult}">
+                <tr th:each="event: ${eventsByLikes}">
                     <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
                     <th th:text="${event.location}"></th>
                     <th th:text="${event.date}"></th>
+                    <th th:text="${event.likes}"></th>
                 </tr>
                 </tbody>
             </table>
         </section>
     </div>
 </div>
+
 
 <!-- Footer -->
 <div class="footer-dark">
@@ -86,6 +92,7 @@
         </div>
     </footer>
 </div>
+
 
 <!-- Required for Bootstrap -->
 <!-- Optional JavaScript -->

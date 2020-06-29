@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Beliebteste Events</title>
+    <title>Event Erstellung</title>
     <!-- bootstrap scaling order -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -10,14 +10,14 @@
     <!-- Custom StyleSheet for the page -->
     <link rel="stlyesheetForHomepage"
           type="text/css"
-          href="src/main/resources/CSS/StyleSheetTopTwenty.css"/>
-    <script type="text/javascript" src="src\main\webapp\WEB-INF\javascript\TopTwentyJS.js"></script>
+          href="../static/StyleSheetCreateEvent.css"/>
+    <script type="text/javascript" src="../javascript/CreateEventJS.js"></script>
 </head>
 <body>
 
 <!-- Header on top of the site -->
 <nav class="navbar sticky-top navbar-dark bg-dark" id="header">
-    <a href="eventplanning/" class="navbar-brand">EventPlanning</a>
+    <a href="/" class="navbar-brand">EventPlanning</a>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
@@ -34,9 +34,9 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
             <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
             <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
-                <a class="dropdown-item" href="eventplanning/createevent">Event bekannt machen</a>
-                <a class="dropdown-item" href="eventplanning/newestevents">Neueste Events</a>
-                <a class="dropdown-item" href="eventplanning/toptwenty">Hottest 20</a>
+                <a class="dropdown-item" href="/createEvent">Event bekannt machen</a>
+                <a class="dropdown-item" href="/newestEvents">Neueste Events</a>
+                <a class="dropdown-item" href="/topTwenty">Hottest 20</a>
             </div>
         </div>
         <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -44,32 +44,42 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
-            <!-- header of the main display -->
-            <h2>Meist gelikedte Events</h2>
-
-            <!-- table displaying events and little info about them -->
-            <table class="table-responsive">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Ort</th>
-                    <th scope="col">Datum</th>
-                    <th scope="col">likes</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="event: ${eventsByLikes}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${event.name}}" th:text="${event.name}"></a></th>
-                    <th th:text="${event.location}"></th>
-                    <th th:text="${event.date}"></th>
-                    <th th:text="${event.likes}"></th>
-                </tr>
-                </tbody>
-            </table>
+            <h2>Neues Event erstellen</h2>
+            <div id="inputContainer">
+                <form action="#" th:action="@{/createEvent}" th:object="${createdEvent}" method="post">
+                   <div class="inputDivs" id="eventNameDiv">
+                        <p>Eventname</p>
+                        <input required type="text" placeholder="Name" th:field="*{name}">
+                    </div>
+                    <div class="inputDivs" id="eventLocationDiv">
+                        <p>Ort</p>
+                        <input required type="text" placeholder="Ort eingeben" th:field="*{location}">
+                    <!--       <select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
+                            <option value="" disabled selected>Art der Angabe</option>
+                            <option value="coord">Koordinaten</option>
+                            <option value="locName">Ortsname</option>
+                        </select> -->
+                    </div>
+                    <div class="inputDivs" id="eventDateDiv">
+                        <p>Datum</p>
+                        <input required type="date" placeholder="current date" th:field="*{date}">
+                    </div>
+                    <div class="inputDivs" id="eventDescriptionInput">
+                        <p>Beschreibung</p>
+                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{description}">
+                    </div>
+                    <div class="inputDivs" id="eventTypDiv">
+                        <p>Eventtyp</p>
+                        <input required type="text" placeholder="Welche Art Event" th:field="*{eventType}">
+                    </div>
+                    <div id="divSubmit">
+                        <button type="submit" id="confirm">Event bekannt machen!</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </div>
 </div>
-
 
 <!-- Footer -->
 <div class="footer-dark">
@@ -92,7 +102,6 @@
         </div>
     </footer>
 </div>
-
 
 <!-- Required for Bootstrap -->
 <!-- Optional JavaScript -->
