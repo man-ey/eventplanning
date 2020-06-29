@@ -62,7 +62,6 @@ public class EventController {
         boolean isInit = Boolean.parseBoolean(bufferedReader.readLine());
 
         bufferedReader.close();
-
         return isInit;
 
     }
@@ -85,6 +84,7 @@ public class EventController {
 
     private Event convertToEvent(EventCreationDTO eventCreationDTO) {
         Event event = modelMapper.map(eventCreationDTO, Event.class);
+
         event.setLikes(0);
         event.setDislikes(0);
         return event;
@@ -93,27 +93,31 @@ public class EventController {
     @GetMapping("/init")
     private void initDB() throws ParseException, IOException {
         if (isInit()) {
-            // initDB
             EventTypeDTO typ1 = new EventTypeDTO("A");
+
             EventTypeDTO typ2 = new EventTypeDTO("B");
+
             EventTypeDTO typ3 = new EventTypeDTO("C");
+
             saveEventType(typ1);
             saveEventType(typ2);
             saveEventType(typ3);
 
-            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "29.06.2020", "Passau", convertToEventType(typ2));
-            EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ1));
-            EventCreationDTO ev2 = new EventCreationDTO("PastEvent", "Sec Event", "31.12.2000",  convertToEventType(typ2), 13.389191, 52.50536);
-            // EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));
-            // EventCreationDTO ev4 = new EventCreationDTO("Event4", "Fourth Event", "31.12.2020", "Paris", convertToEventType(typ2));
+            EventCreationDTO ev1 = new EventCreationDTO("Event1",
+                    "First Event", "29.06.2020", "Passau",
+                    convertToEventType(typ2));
 
+            EventCreationDTO ev5 = new EventCreationDTO("Event5",
+                    "Fifth Event", "31.12.2020", "München",
+                    convertToEventType(typ1));
 
+            EventCreationDTO ev2 = new EventCreationDTO("PastEvent",
+                    "Sec Event", "31.12.2000",  convertToEventType(typ2),
+                    13.389191, 52.50536);
 
             saveEvent(ev1);
             saveEvent(ev5);
             saveEvent(ev2);
-//            saveEvent(ev3);
-//            saveEvent(ev4);
         }
     }
 
@@ -121,6 +125,7 @@ public class EventController {
     @GetMapping("/api/events")
     public List<EventDTO> getAllEvents() {
         List<EventDTO> result = new ArrayList<>();
+
         for (Event event : eventService.getAll()) {
             result.add(convertToEventDTO(event));
         }
@@ -130,6 +135,7 @@ public class EventController {
     @GetMapping("/api/eventtypes")
     public List<EventTypeDTO> getAllEventsTypes() {
         List<EventTypeDTO> result = new ArrayList<>();
+
         for (EventType eventType : eventTypeService.getAll()) {
             result.add(convertToEventTypeDTO(eventType));
         }
@@ -139,6 +145,7 @@ public class EventController {
     @GetMapping("/api/newest20")
     public List<EventDTO> newestTwenty() {
         List<EventDTO> result = new ArrayList<>();
+
         for (Event event : eventService.newestN(20)) {
             result.add(convertToEventDTO(event));
         }
@@ -148,6 +155,7 @@ public class EventController {
     @RequestMapping("like")
     public void like(@RequestParam("name") String eventName) {
         Event event = eventService.find(eventName);
+
         if (event != null) {
             event.like();
             eventService.update(event);
@@ -159,10 +167,10 @@ public class EventController {
     @RequestMapping("dislike")
     public void dislike(@RequestParam("name") String eventName) {
         Event event = eventService.find(eventName);
+
         if (event != null) {
             event.dislike();
             eventService.update(event);
-
         } else {
             throw new IllegalArgumentException("Event does not exist.");
         }
@@ -171,6 +179,7 @@ public class EventController {
     @GetMapping("/api/top")
     public List<EventDTO> topThree() {
         List<EventDTO> result = new ArrayList<>();
+
         for (Event event : eventService.top(3)) {
             result.add(convertToEventDTO(event));
         }
@@ -196,6 +205,7 @@ public class EventController {
     @RequestMapping("/filter")
     public List<EventDTO> testFilter() {
         EventType e1 = eventTypeService.find("A");
+
         EventType e2 = eventTypeService.find("B");
 
         return filterType(convertToEventTypeDTO(e2), 20);
@@ -203,7 +213,9 @@ public class EventController {
 
     public List<EventDTO> filterType(EventTypeDTO eventTypeDTO, int amount) {
         List<EventDTO> result = new ArrayList<>();
-        for (Event event : eventService.filter(eventTypeDTO.getEventType(), amount)) {
+
+        for (Event event : eventService
+                .filter(eventTypeDTO.getEventType(), amount)) {
             result.add(convertToEventDTO(event));
         }
         return result;
@@ -229,11 +241,12 @@ public class EventController {
 
         Set<Event> intersection = new HashSet<>(seperateQueryResults[0]);
 
-        for(int i = 0; i < queryWords.length; i++) {
+        for (int i = 0; i < queryWords.length; i++) {
             intersection.retainAll(seperateQueryResults[i]);
         }
 
         List<EventDTO> result = new ArrayList<>();
+
         for (Event event : intersection) {
             result.add(convertToEventDTO(event));
         }
@@ -243,6 +256,7 @@ public class EventController {
     @RequestMapping("/events")  // Bonus REST
     public List<EventDTO> getLastN(@RequestParam("n") int n) {
         List<EventDTO> result = new ArrayList<>();
+
         for (Event event : eventService.newestN(n)) {
             result.add(convertToEventDTO(event));
         }

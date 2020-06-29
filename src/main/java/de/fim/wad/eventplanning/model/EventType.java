@@ -3,7 +3,7 @@ package de.fim.wad.eventplanning.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name="EVENTTYPE")
+@Entity(name = "EVENTTYPE")
 public class EventType {
 
     @Id

@@ -2,7 +2,6 @@ package de.fim.wad.eventplanning.dto;
 
 import de.fim.wad.eventplanning.model.EventType;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Date;
 
 public class EventDTO {
@@ -30,12 +29,23 @@ public class EventDTO {
 
     }
 
-    public EventDTO(String name, String description, Date date, String location, EventType eventType, Double longitude,
-                    Double latitude, int likes, int dislikes) throws ParseException {
+    public EventDTO(String name, String description, Date date, String location,
+                    EventType eventType, int likes, int dislikes) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.location = location;
+        this.eventType = eventType;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
+
+    public EventDTO(String name, String description, Date date,
+                    EventType eventType, Double longitude,
+                    Double latitude, int likes, int dislikes) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
         this.eventType = eventType;
         this.longitude = longitude;
         this.latitude = latitude;

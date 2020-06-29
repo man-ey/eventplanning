@@ -2,9 +2,7 @@ package de.fim.wad.eventplanning.dto;
 
 import de.fim.wad.eventplanning.APIs.GeoAPI;
 import de.fim.wad.eventplanning.model.EventType;
-
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -27,11 +25,13 @@ public class EventCreationDTO {
 
     }
 
-    public EventCreationDTO(String name, String description, String date, String location,
+    public EventCreationDTO(String name, String description, String date,
+                            String location,
                             EventType eventType) throws ParseException {
         this.name = name;
         this.description = description;
-        this.date = new Date(new SimpleDateFormat("dd.MM.yyyy").parse(date).getTime());
+        this.date = new Date(new SimpleDateFormat("dd.MM.yyyy")
+                .parse(date).getTime());
         this.location = location;
         this.eventType = eventType;
         double[] coords = GeoAPI.locationToLatLng(location);
@@ -39,11 +39,13 @@ public class EventCreationDTO {
         this.latitude = coords[1];
     }
 
-    public EventCreationDTO(String name, String description, String date, EventType eventType, Double longitude,
+    public EventCreationDTO(String name, String description, String date,
+                            EventType eventType, Double longitude,
                             Double latitude) throws ParseException {
         this.name = name;
         this.description = description;
-        this.date = new Date(new SimpleDateFormat("dd.MM.yyyy").parse(date).getTime());
+        this.date = new Date(new SimpleDateFormat("dd.MM.yyyy")
+                .parse(date).getTime());
         this.location = GeoAPI.latLngtoCity(latitude, longitude);
         this.eventType = eventType;
         this.longitude = longitude;
