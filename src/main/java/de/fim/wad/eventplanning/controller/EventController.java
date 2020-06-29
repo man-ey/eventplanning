@@ -276,6 +276,7 @@ public class EventController {
     @RequestMapping("/")
     public String homepage(Model model){
         model.addAttribute("topTwenty", newestTwenty());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "index";
     }
 
@@ -286,12 +287,15 @@ public class EventController {
     }
 
     @RequestMapping("/topTwenty")
-    public String topTwenty(){
+    public String topTwenty(Model model){
+        model.addAttribute("topTwenty", topTwenty());
         return "TopTwenty";
     }
 
     @RequestMapping("/newestEvents")
-    public String newestEvents(){
+    public String newestEvents(Model model){
+        model.addAttribute("topTwenty", newestTwenty());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "index";
     }
 
