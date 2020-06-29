@@ -4,20 +4,13 @@ import de.fim.wad.eventplanning.model.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, String> {
 
-   // public static final int oneDay = 24*60*60*1000;
-
-
-
-    @Query(value = "select * from event where (event.date >= CURRENT_TIMESTAMP) order by event.creation_time", nativeQuery = true) //TODO: BUGFIX
+    @Query(value = "select * from event where (event.date >= CURRENT_DATE ) order by event.creation_time", nativeQuery = true)
     List<Event> newest();
 
     @Query(value = "select * from event order by event.likes desc", nativeQuery = true)

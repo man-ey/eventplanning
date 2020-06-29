@@ -101,7 +101,7 @@ public class EventController {
             saveEventType(typ2);
             saveEventType(typ3);
 
-            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "31.12.2020", "Passau", convertToEventType(typ2));
+            EventCreationDTO ev1 = new EventCreationDTO("Event1", "First Event", "29.06.2020", "Passau", convertToEventType(typ2));
             EventCreationDTO ev5 = new EventCreationDTO("Event5", "Fifth Event", "31.12.2020", "München", convertToEventType(typ1));
             EventCreationDTO ev2 = new EventCreationDTO("PastEvent", "Sec Event", "31.12.2000",  convertToEventType(typ2), 13.389191, 52.50536);
             // EventCreationDTO ev3 = new EventCreationDTO("Event3", "Third Event", "31.12.2020", "Frankfurt", convertToEventType(typ2));

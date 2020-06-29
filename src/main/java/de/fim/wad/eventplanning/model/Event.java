@@ -1,6 +1,5 @@
 package de.fim.wad.eventplanning.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,7 +10,7 @@ import java.util.Date;
 public class Event {
     @Id
     private String name;
-    private Timestamp date;
+    private Date date;
     private String location;
     @ManyToOne
     private EventType eventType;
@@ -41,7 +40,7 @@ public class Event {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -118,7 +117,7 @@ public class Event {
         dislikes++;
     }
 
-    public Date getCreationTime() {
+    public Timestamp getCreationTime() {
         return creationTime;
     }
 }
