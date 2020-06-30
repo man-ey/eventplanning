@@ -46,7 +46,7 @@ public class EventCreationDTO {
         this.description = description;
         this.date = new Date(new SimpleDateFormat("dd.MM.yyyy")
                 .parse(date).getTime());
-        this.location = GeoAPI.latLngtoCity(latitude, longitude);
+        this.location = GeoAPI.latLngToCity(latitude, longitude);
         this.eventType = eventType;
         this.longitude = longitude;
         this.latitude = latitude;

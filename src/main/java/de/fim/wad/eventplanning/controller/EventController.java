@@ -12,16 +12,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,7 +122,7 @@ public class EventController {
                     convertToEventType(typ2));
 
             EventCreationDTO event2 = new EventCreationDTO("Event_2",
-                    "Second Event", "31.12.2020", "München",
+                    "Second Event", "02.07.2020", "Munich",
                     convertToEventType(typ1));
 
             EventCreationDTO event3 = new EventCreationDTO("Event_3",
@@ -371,4 +373,30 @@ public class EventController {
         return "SearchingEvent";
     }
 
+    @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=dislike")
+    public String dislike(Model model, HttpServletRequest request) {
+        String eventName = request.getParameter("name");
+        Event event = eventService.find(eventName);
+        if (event != null) {
+            event.dislike();
+            eventService.update(event);
+        } else {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+        model.addAttribute("event", event);
+        return detail(model, request);
+    }
+
+    @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=like")
+    public String like(Model model, HttpServletRequest request) {
+        String eventName = request.getParameter("name");
+        Event event = eventService.find(eventName);
+        if (event != null) {
+            event.like();
+            eventService.update(event);
+        } else {
+            throw new IllegalArgumentException("Event does not exist.");
+        }
+        return detail(model, request);
+    }
 }
