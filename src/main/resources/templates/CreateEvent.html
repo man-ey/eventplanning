@@ -45,34 +45,52 @@
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
             <h2>Neues Event erstellen</h2>
             <div id="inputContainer">
-                <form action="#" th:action="@{/createEvent}" th:object="${createdEvent}" method="post">
+                <form action="#" data-th-action="@{'/createEvent'}" data-th-object="${createdEvent}" method="post">
                    <div class="inputDivs" id="eventNameDiv">
                         <p>Eventname</p>
                         <input required type="text" placeholder="Name" th:field="*{name}">
                     </div>
+                    <br>
                     <div class="inputDivs" id="eventLocationDiv">
                         <p>Ort</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="locRadio" id="radioName" value="locName" checked>
+                            <label class="form-check-label" for="radioName">
+                                Ortsname
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="locRadio" id="radioCoords" value="locCoords">
+                            <label class="form-check-label" for="radioCoords">
+                                Koordinaten (Längengrad, Breitengrad)
+                            </label>
+                        </div>
+
                         <input required type="text" placeholder="Ort eingeben" th:field="*{location}">
-                    <!--       <select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
+                        <!--<select required name="locationData" id="locationSelectBox" th:field="*{eventLocUnit}">
                             <option value="" disabled selected>Art der Angabe</option>
                             <option value="coord">Koordinaten</option>
                             <option value="locName">Ortsname</option>
-                        </select> -->
+                        </select>-->
                     </div>
+                    <br>
                     <div class="inputDivs" id="eventDateDiv">
                         <p>Datum</p>
                         <input required type="date" placeholder="current date" th:field="*{date}">
                     </div>
+                    <br>
                     <div class="inputDivs" id="eventDescriptionInput">
                         <p>Beschreibung</p>
                         <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{description}">
                     </div>
+                    <br>
                     <div class="inputDivs" id="eventTypDiv">
                         <p>Eventtyp</p>
                         <input required type="text" placeholder="Welche Art Event" th:field="*{eventType}">
                     </div>
+                    <br>
                     <div id="divSubmit">
-                        <button type="submit" id="confirm">Event bekannt machen!</button>
+                        <button type="submit" id="confirm" name="action" value="confirmCreate">Event bekannt machen!</button>
                     </div>
                 </form>
             </div>

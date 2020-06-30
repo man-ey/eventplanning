@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -133,6 +134,7 @@ public class EventController {
             saveEvent(event1);
             saveEvent(event2);
             saveEvent(event3);
+
 
             for (int i = 0; i < 42; i++) {
                 like(event1.getName());
@@ -416,5 +418,16 @@ public class EventController {
             throw new IllegalArgumentException("Event does not exist.");
         }
         return detail(model, request);
+    }
+
+    @RequestMapping(value="/createEvent", method=RequestMethod.POST, params="action=confirmCreate")
+    public String createEvent(
+            Model model,
+            HttpServletRequest request,
+            @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
+            BindingResult bindingResult) {
+        System.out.println(eventCreationDTO.getName());
+        saveEvent(eventCreationDTO);
+        return homepage(model);
     }
 }
