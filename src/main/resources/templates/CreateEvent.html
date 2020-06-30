@@ -82,7 +82,9 @@
                     <div class="inputDivs" id="eventTypDiv">
                         <p>Eventtyp</p>
                         <select th:field="*{eventType}">EventTyp>
-                            <option th:each="EventDTO : ${allTypes}" value="1" th:text="${EventDTO.getEventType()}"></option>
+                            <option th:each="EventDTO : ${allTypes}" th:value="${EventDTO.getEventType()}"
+                                    th:text="${EventDTO.eventType}"
+                                    th:selected="${createdEvent.eventType == EventDTO.getEventType()}"></option>
                         </select>
                     </div>
                     <br>

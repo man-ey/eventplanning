@@ -120,14 +120,16 @@ public class EventController {
 
             EventCreationDTO event1 = new EventCreationDTO("Event_1",
                     "First Event", "01.07.2020", "Passau",
-                    convertToEventType(typ2));
+                    eventTypeService.find(typ2.getEventType()).getEventType());
 
             EventCreationDTO event2 = new EventCreationDTO("Event_2",
                     "Second Event", "02.07.2020", "Munich",
-                    convertToEventType(typ1));
+                    eventTypeService.find(typ1.getEventType()).getEventType());
+
 
             EventCreationDTO event3 = new EventCreationDTO("Event_3",
-                    "Event in past.", "31.12.2000",  convertToEventType(typ2),
+                    "Event in past.", "31.12.2000",
+                    eventTypeService.find(typ2.getEventType()).getEventType(),
                     13.389191, 52.50536);
 
 
@@ -412,6 +414,6 @@ public class EventController {
             BindingResult bindingResult) {
         System.out.println(eventCreationDTO.getName());
         saveEvent(eventCreationDTO);
-        return homepage(model);
+        return homepage(model, request);
     }
 }
