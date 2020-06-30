@@ -28,7 +28,7 @@ Beim erstellen eines Events kann frei Titel, Ort, Datum, Beschreibung und Eventt
 
 Hierbei sollte man jedoch für genaue Wettervorhersagen englische Städtenamen verwenden.
 
-Alternativ kann die Ortsangabe auch mit Koordinaten angegeben werden.
+Alternativ kann die Ortsangabe auch mit Koordinaten angegeben werden. Diese müssen im richtigen Format angegeben werden, damit sie das Programm erkennt. Ansonsten wird im Event kein Ort gespeichert und die Wettervorhersage findet keine passenden Daten.
 
 
 
