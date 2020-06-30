@@ -314,7 +314,13 @@ public class EventController {
 
 
     @RequestMapping("/createEvent")
-    public String createNewEvent(Model model){
+    public String createNewEvent(Model model, Boolean noSuccess){
+        if (noSuccess!=null&&!noSuccess) {
+            String errorMessage = "Eventname schon vergeben!";
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "CreateEvent";
+        }
         model.addAttribute("createdEvent", new EventCreationDTO());
         model.addAttribute("allTypes", getAllEventsTypes());
         return "CreateEvent";
@@ -413,7 +419,10 @@ public class EventController {
             @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
             BindingResult bindingResult) {
         System.out.println(eventCreationDTO.getName());
-        saveEvent(eventCreationDTO);
+        boolean success = saveEvent(eventCreationDTO);
+        if (!success) {
+            return createNewEvent(model, success);
+        }
         return homepage(model, request);
     }
 }

@@ -42,6 +42,7 @@
 
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
+            <h3 th:text="${error}"></h3>
             <h2>Neues Event erstellen</h2>
             <div id="inputContainer">
                 <form action="#" data-th-action="@{'/createEvent'}" data-th-object="${createdEvent}" method="post">

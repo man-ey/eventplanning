@@ -27,10 +27,15 @@
 #display {
     margin: 1rem 0;
 }
+#display h3 {
+    font-size: 35px;
+    margin: 1rem 0;
+    color: red;
+}
 #display h2 {
     font-size: 32px;
     margin: 1rem 0;
-    color: red;
+    color: darkslategrey;
 }
 #divSubmit {
     margin-left:2em;
