@@ -70,7 +70,8 @@ public class EventController {
 
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        boolean isInit = Boolean.parseBoolean(bufferedReader.readLine());
+        boolean isInit = Boolean.parseBoolean(
+                bufferedReader.readLine().replace(" ", "" ));
 
         bufferedReader.close();
         return isInit;
