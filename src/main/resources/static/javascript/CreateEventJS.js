@@ -24,4 +24,4 @@ function checkInputs() {
 $('input').filter('[required]').on('keyup',function() {
     checkInputs()
 })
-checkInputs()
+checkInputs();

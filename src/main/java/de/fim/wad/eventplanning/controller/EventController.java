@@ -29,10 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class EventController {
@@ -122,14 +119,16 @@ public class EventController {
 
             EventCreationDTO event1 = new EventCreationDTO("Event_1",
                     "First Event", "01.07.2020", "Passau",
-                    convertToEventType(typ2));
+                    eventTypeService.find(typ2.getEventType()).getEventType());
 
             EventCreationDTO event2 = new EventCreationDTO("Event_2",
                     "Second Event", "02.07.2020", "Munich",
-                    convertToEventType(typ1));
+                    eventTypeService.find(typ1.getEventType()).getEventType());
+
 
             EventCreationDTO event3 = new EventCreationDTO("Event_3",
-                    "Event in past.", "31.12.2000",  convertToEventType(typ2),
+                    "Event in past.", "31.12.2000",
+                    eventTypeService.find(typ2.getEventType()).getEventType(),
                     13.389191, 52.50536);
 
 
@@ -312,8 +311,20 @@ public class EventController {
 
 
     @RequestMapping("/createEvent")
-    public String createNewEvent(Model model){
+    public String createNewEvent(Model model, Boolean success, Boolean pastDate){
+        if (success!=null&&!success) {
+            String errorMessage = "Eventname schon vergeben!";
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "CreateEvent";
+        } else if (pastDate!=null&&pastDate) {
+            String errorMessage = "Datum liegt in der Vergangenheit!";
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "CreateEvent";
+        }
         model.addAttribute("createdEvent", new EventCreationDTO());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "CreateEvent";
     }
 
@@ -490,8 +501,16 @@ public class EventController {
             HttpServletResponse response,
             @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
             BindingResult bindingResult) {
-        System.out.println(eventCreationDTO.getName());
-        saveEvent(eventCreationDTO);
-        return homepage(model, request, response);
+        Date entered = eventCreationDTO.getDate();
+        Date today = new Date();
+        boolean pastDate = entered.before(today);
+        if(pastDate) {
+            return createNewEvent(model, true, pastDate);
+        }
+        boolean success = saveEvent(eventCreationDTO);
+        if (!success) {
+            return createNewEvent(model, success, false);
+        }
+        return homepage(model, request);
     }
 }
