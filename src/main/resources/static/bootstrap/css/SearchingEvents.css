@@ -49,7 +49,9 @@ tr:hover {
     position: relative;
     clear: both;
     margin-top: 10em;
-
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 #footerContainer {
     width : 100%;
@@ -98,10 +100,4 @@ tr:hover {
     opacity: 0.3;
     font-size: 13px;
     margin-bottom: 0;
-}
-#restartExamples {
-    color: red;
-}
-#restartNoEx {
-    color: green;
 }

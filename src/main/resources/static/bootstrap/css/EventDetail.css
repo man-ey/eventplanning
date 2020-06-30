@@ -39,10 +39,16 @@ th {
 #buttonLike{
     border: none;
     color: green;
+    border-radius: 50%;
+    height: 75px;
+    width: 75px;
 }
 #buttonDislike {
     border: none;
     color: red;
+    border-radius: 50%;
+    height: 75px;
+    width: 75px;
 }
 
 
@@ -107,10 +113,4 @@ th {
     opacity: 0.3;
     font-size: 13px;
     margin-bottom: 0;
-}
-#restartExamples {
-    color: red;
-}
-#restartNoEx {
-    color: green;
 }
