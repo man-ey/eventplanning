@@ -34,7 +34,7 @@
 th {
     padding: 0 10px;
 }
-tr:hover {
+#tableBody tr:hover {
     background: grey;
 }
 .scrollable-menu {
@@ -106,10 +106,4 @@ tr:hover {
     opacity: 0.3;
     font-size: 13px;
     margin-bottom: 0;
-}
-#restartExamples {
-    color: red;
-}
-#restartNoEx {
-    color: green;
 }

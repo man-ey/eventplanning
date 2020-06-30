@@ -43,7 +43,7 @@
         <!-- Main display for interactions and displaying -->
         <section class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="display">
             <!-- header of the main display -->
-            <h2>Meist gelikedte Events</h2>
+            <h2>Angesagteste Events</h2>
 
             <!-- table displaying events and little info about them -->
             <table class="table-responsive">
@@ -55,9 +55,9 @@
                     <th scope="col">likes</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                 <tr th:each="EventDTO: ${topTwenty}">
-                    <th> <a th:href="@{'eventplanning/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
+                    <th> <a th:href="@{'/detail?name=' + ${EventDTO.name}}" th:text="${EventDTO.name}"></a></th>
                     <th th:text="${EventDTO.location}"></th>
                     <th th:text="${EventDTO.date}"></th>
                     <th th:text="${EventDTO.likes}"></th>
