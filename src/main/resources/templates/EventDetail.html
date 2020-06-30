@@ -119,8 +119,8 @@
 <!-- Header on top of the site -->
 <nav class="navbar sticky-top navbar-dark bg-dark" id="header">
     <a href="/" class="navbar-brand">EventPlanning</a>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Eventsuche" aria-label="Search" id="searchbar">
+    <form class="form-inline" action="/search" method="get">
+        <input class="form-control mr-sm-2" type="input" name="q" placeholder="Eventsuche" id="searchbar">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
     </form>
 </nav>
