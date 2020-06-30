@@ -27,10 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class EventController {
@@ -314,9 +311,14 @@ public class EventController {
 
 
     @RequestMapping("/createEvent")
-    public String createNewEvent(Model model, Boolean noSuccess){
-        if (noSuccess!=null&&!noSuccess) {
+    public String createNewEvent(Model model, Boolean success, Boolean pastDate){
+        if (success!=null&&!success) {
             String errorMessage = "Eventname schon vergeben!";
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "CreateEvent";
+        } else if (pastDate!=null&&pastDate) {
+            String errorMessage = "Datum liegt in der Vergangenheit!";
             model.addAttribute("error", errorMessage);
             model.addAttribute("allTypes", getAllEventsTypes());
             return "CreateEvent";
@@ -418,10 +420,15 @@ public class EventController {
             HttpServletRequest request,
             @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
             BindingResult bindingResult) {
-        System.out.println(eventCreationDTO.getName());
+        Date entered = eventCreationDTO.getDate();
+        Date today = new Date();
+        boolean pastDate = entered.before(today);
+        if(pastDate) {
+            return createNewEvent(model, true, pastDate);
+        }
         boolean success = saveEvent(eventCreationDTO);
         if (!success) {
-            return createNewEvent(model, success);
+            return createNewEvent(model, success, false);
         }
         return homepage(model, request);
     }

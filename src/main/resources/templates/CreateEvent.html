@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- Custom StyleSheet for the page -->
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/CreateEvent.css}">
-    <script type="text/javascript" th:src="@{/javascript/CreateEventJS.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/javascript/CreateEventJS.js}"></script>
 </head>
 <body>
 
@@ -71,12 +71,12 @@
                     <br>
                     <div class="inputDivs" id="eventDateDiv">
                         <p>Datum</p>
-                        <input required type="date" placeholder="current date" th:field="*{date}">
+                        <input required name="dateField" type="date" placeholder="current date" th:field="*{date}">
                     </div>
                     <br>
                     <div class="inputDivs" id="eventDescriptionInput">
                         <p>Beschreibung</p>
-                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" th:field="*{description}">
+                        <input required type="text" placeholder="Beschreibe dein Event kurz" id="descriptionBox" min="2014-01-01" th:field="*{description}">
                     </div>
                     <br>
                     <div class="inputDivs" id="eventTypDiv">
