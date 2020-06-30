@@ -62,11 +62,21 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="locRadio" id="radioCoords" value="locCoords">
                             <label class="form-check-label" for="radioCoords">
-                                Koordinaten (Längengrad, Breitengrad)
+                                Koordinaten (Breitengrad, Längengrad)
                             </label>
                         </div>
 
-                        <input required type="text" placeholder="Ort eingeben" th:field="*{location}">
+                        <input type="text" placeholder="Ort eingeben" th:field="*{location}">
+                    </div>
+                    <br>
+                    <div class="inputDivs" id="eventLocationCoordLatDiv">
+                        <p>Breitengrad</p>
+                        <input name="coordLat" type="text" placeholder="z.B. 52.516181" th:field="*{latitude}">
+                    </div>
+                    <br>
+                    <div class="inputDivs" id="eventLocationCoordLngDiv">
+                        <p>Längengrad</p>
+                        <input name="coordLng" type="text" placeholder="z.B. 13.376935" th:field="*{longitude}">
                     </div>
                     <br>
                     <div class="inputDivs" id="eventDateDiv">

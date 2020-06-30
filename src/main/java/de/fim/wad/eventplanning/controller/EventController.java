@@ -1,5 +1,6 @@
 package de.fim.wad.eventplanning.controller;
 
+import de.fim.wad.eventplanning.APIs.GeoAPI;
 import de.fim.wad.eventplanning.APIs.WeatherAPI;
 import de.fim.wad.eventplanning.dto.EventCreationDTO;
 import de.fim.wad.eventplanning.dto.EventDTO;
@@ -501,6 +502,16 @@ public class EventController {
             HttpServletResponse response,
             @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
             BindingResult bindingResult) {
+        double lat = eventCreationDTO.getLatitude();
+        double lng = eventCreationDTO.getLongitude();
+        //String location = eventCreationDTO.getLocation();
+
+        //check if user entered coords or city name
+        if(lat != 0.0 && lng != 0.0){ // user entered coords
+            String city = GeoAPI.latLngToCity(lat, lng);
+            eventCreationDTO.setLocation(city);
+        }
+
         Date entered = eventCreationDTO.getDate();
         Date today = new Date();
         boolean pastDate = entered.before(today);
