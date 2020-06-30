@@ -7,6 +7,7 @@ Zum Starten der Applikation muss lediglich die Datei Eventplannig-0.0.1-SNAPSHOT
 
 
 **USERGUIDE**
+
 Man gelingt zur Applikation indem man im Browser die Indexseite aufgerufen wird (bei Tomcat-Nutzung "localhost:8080/"").
 
 Eine intuitive Suchbar, welche nach Eventnamen und Eventorte suchen kann befindet sich oben rechts.
