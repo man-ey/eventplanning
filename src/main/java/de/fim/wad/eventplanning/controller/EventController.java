@@ -426,8 +426,6 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=dislike")
-    public String dislike(Model model, HttpServletRequest request) {
-        model.addAttribute("topThree", topThree());
     public String dislike(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
@@ -464,8 +462,6 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=like")
-    public String like(Model model, HttpServletRequest request) {
-        model.addAttribute("topThree", topThree());
     public String like(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
