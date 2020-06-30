@@ -16,7 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -326,10 +328,29 @@ public class EventController {
 
 
     @RequestMapping("/detail")
-    public String detail(Model model, HttpServletRequest request){
+    public String detail(Model model, HttpServletRequest request /*@CookieValue(value = "likeEventName", defaultValue = "default") String likeEventName, @CookieValue(value = "dislikeEventName", defaultValue = "default") String dislikeEventName*/){
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         model.addAttribute("event", event);
+        /*
+        System.out.println(likeEventName);
+
+        if(!likeEventName.equals("default")){
+            System.out.println("found cookie like for " + likeEventName);
+        }
+
+        if(!dislikeEventName.equals("default")){
+            System.out.println("found cookie dislike for " + dislikeEventName);
+        }
+        */
+        Cookie[] cookies = request.getCookies();
+        System.out.println(cookies);
+        if(cookies!= null){
+            for(Cookie c:cookies){
+                System.out.println(c.getName());
+                System.out.println(c.getValue());
+            }
+        }
 
         //weather
         WeatherAPI weatherAPI = new WeatherAPI();
@@ -377,7 +398,7 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=dislike")
-    public String dislike(Model model, HttpServletRequest request) {
+    public String dislike(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         if (event != null) {
@@ -386,12 +407,15 @@ public class EventController {
         } else {
             throw new IllegalArgumentException("Event does not exist.");
         }
-        model.addAttribute("event", event);
+
+        Cookie cookie = new Cookie("dislikeEventName", eventName);
+        response.addCookie(cookie);
+
         return detail(model, request);
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=like")
-    public String like(Model model, HttpServletRequest request) {
+    public String like(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         if (event != null) {
@@ -400,6 +424,10 @@ public class EventController {
         } else {
             throw new IllegalArgumentException("Event does not exist.");
         }
+
+        Cookie cookie = new Cookie("likeEventName", eventName);
+        response.addCookie(cookie);
+
         return detail(model, request);
     }
 
@@ -411,6 +439,6 @@ public class EventController {
             BindingResult bindingResult) {
         System.out.println(eventCreationDTO.getName());
         saveEvent(eventCreationDTO);
-        return homepage(model);
+        return homepage(model, request);
     }
 }
