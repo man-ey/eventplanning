@@ -155,6 +155,7 @@
                     <th scope="col">Wetter</th>
                     <th scope="col">Likes</th>
                     <th scope="col">Dislikes</th>
+                    <th scope="col">Voting</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -163,11 +164,13 @@
                     <th th:text="${event.getLocation()}"></th>
                     <th th:text="${event.getDate()}"></th>
                     <th th:text="${weather}"></th>
-                    <th th:text="${event.getLikes()}">
-                    <th th:text="${event.getDislikes()}">
-                        <button id="buttonLike" onclick="updateLike()">+</button>
-                        <button id="buttonDislike" onclick="updateDislike()">-</button>
-                        <span th:text="${event.getDislikes()}"></span>
+                    <th th:text="${event.getLikes()}"></th>
+                    <th th:text="${event.getDislikes()}"></th>
+                    <th>
+                        <form action="#" data-th-action="@{'/detail?name=' + ${event.getName()}}" data-th-object="${event}" method="post">
+                            <button id="buttonLike" type="submit" name="action" value="like">+</button>
+                            <button id="buttonDislike" type="submit" name="action" value="dislike">-</button>
+                        </form>
                     </th>
                 </tr>
                 </tbody>

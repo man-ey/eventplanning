@@ -60,38 +60,19 @@ public class WeatherAPI {
             System.out.println("GET NOT WORKED");
             System.out.println(url);
         }
-        return null;
+        return new WeatherForecast[0];
     }
 
     public WeatherForecast[] getWeatherByName(String name) throws IOException{
         String urlString = SEARCHBYNAME_URL + name;
         String result = getJson(urlString);
-        System.out.println(urlString);
-        System.out.println(result);
-        WeatherForecast[] weather = weatherRequest(getWoeidFromJson(result));
-        for(WeatherForecast wf:weather){
-            System.out.println("date: " + wf.date);
-            System.out.println("min: " + wf.tempMin);
-            System.out.println("max: " + wf.tempMax);
-            System.out.println("weather: " + wf.weather.toString());
-            System.out.println("----");
-        }
-        return weather;
+        return weatherRequest(getWoeidFromJson(result));
     }
 
     public WeatherForecast[] getWeatherByLatLng(double lat, double lng) throws IOException{
         String urlString = SEARCHBYLATLNG_URL + lat + "," + lng;
         String result = getJson(urlString);
-        weatherRequest(getWoeidFromJson(result));
-        WeatherForecast[] weather = weatherRequest(getWoeidFromJson(result));
-        for(WeatherForecast wf:weather){
-            System.out.println("date: " + wf.date);
-            System.out.println("min: " + wf.tempMin);
-            System.out.println("max: " + wf.tempMax);
-            System.out.println("weather: " + wf.weather.toString());
-            System.out.println("----");
-        }
-        return weather;
+        return weatherRequest(getWoeidFromJson(result));
     }
 
     private String getJson(String urlString) throws IOException {
@@ -108,14 +89,12 @@ public class WeatherAPI {
                 response.append(readLine);
             }
             in.close();
-            System.out.println(response.toString());
         }
         result = response.toString();
         return result;
     }
 
     private int getWoeidFromJson(String json){
-        System.out.println(json);
         int woeid = -1;
         JSONArray array = new JSONArray(json);
         JSONObject obj = null;
@@ -142,10 +121,10 @@ public class WeatherAPI {
     }
 
     public class WeatherForecast{
-        private String date; //YYYY-MM-DD
-        private int tempMax, tempMin;
-        private WEATHER weather;
-        //todo add boolean if distance is small enough!
+        private final String date; //YYYY-MM-DD
+        private final int tempMax;
+        private final int tempMin;
+        private final WEATHER weather;
 
         public WeatherForecast(String date, int tempMin, int tempMax, WEATHER weather) {
             this.date = date;
@@ -171,7 +150,7 @@ public class WeatherAPI {
         }
 
         public String getWeatherTextDe(){
-            String result = "error";
+            String result = "Keine Wetterdaten verfügbar";
             switch (weather){
                 case CLEAR:
                     result = "Sonnig";
