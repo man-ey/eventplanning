@@ -8,8 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- Custom StyleSheet for the page -->
-    <link rel="stlyesheet" type="text/css"
-          th:href="@{/css/StyleSheetTopTwenty.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/TopTwenty.css}">
     <script type="text/javascript" th:src="@{/javascript/TopTwentyJS.js}"></script>
 </head>
 <body>
@@ -33,9 +32,9 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="sidebar">
             <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
             <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
-                <a class="dropdown-item" href="/createEvent">Event bekannt machen</a>
-                <a class="dropdown-item" href="/newestEvents">Neueste Events</a>
-                <a class="dropdown-item" href="/topTwenty">Hottest 20</a>
+                <a class="dropdown-item" href="http://localhost:8080/createEvent">Event bekannt machen</a>
+                <a class="dropdown-item" href="http://localhost:8080/">Neueste Events</a>
+                <a class="dropdown-item" href="http://localhost:8080/topTwenty">Hottest 20</a>
             </div>
         </div>
         <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">

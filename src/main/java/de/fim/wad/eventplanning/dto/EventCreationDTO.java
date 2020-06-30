@@ -15,7 +15,7 @@ public class EventCreationDTO {
 
     private String location;
 
-    private EventType eventType;
+    private String eventType;
 
     private double longitude;
 
@@ -27,7 +27,7 @@ public class EventCreationDTO {
 
     public EventCreationDTO(String name, String description, String date,
                             String location,
-                            EventType eventType) throws ParseException {
+                            String eventType) throws ParseException {
         this.name = name;
         this.description = description;
         this.date = new Date(new SimpleDateFormat("dd.MM.yyyy")
@@ -40,7 +40,7 @@ public class EventCreationDTO {
     }
 
     public EventCreationDTO(String name, String description, String date,
-                            EventType eventType, Double longitude,
+                            String eventType, Double longitude,
                             Double latitude) throws ParseException {
         this.name = name;
         this.description = description;
@@ -84,11 +84,11 @@ public class EventCreationDTO {
         this.location = location;
     }
 
-    public EventType getEventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    public void setEventType(EventType eventType) {
+    public void setEventType(String eventType) {
         this.eventType = eventType;
     }
 
