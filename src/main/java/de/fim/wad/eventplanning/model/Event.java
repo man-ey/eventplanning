@@ -117,6 +117,15 @@ public class Event {
         dislikes++;
     }
 
+    public void removeDislike() {
+        dislikes--;
+    }
+
+    public void removeLike() {
+        likes--;
+    }
+
+
     public Timestamp getCreationTime() {
         return creationTime;
     }

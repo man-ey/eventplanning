@@ -49,9 +49,19 @@
             border: none;
             color: green;
         }
+        #buttonLikeSelected{
+            border: none;
+            color: white;
+            background-color: green;
+        }
         #buttonDislike {
             border: none;
             color: red;
+        }
+        #buttonDislikeSelected {
+            border: none;
+            color: white;
+            background-color: red;
         }
 
 
@@ -168,8 +178,10 @@
                     <th th:text="${event.getDislikes()}"></th>
                     <th>
                         <form action="#" data-th-action="@{'/detail?name=' + ${event.getName()}}" data-th-object="${event}" method="post">
-                            <button id="buttonLike" type="submit" name="action" value="like">+</button>
-                            <button id="buttonDislike" type="submit" name="action" value="dislike">-</button>
+                            <button th:if="${cookieLike}" id="buttonLikeSelected" type="submit" name="action" value="like">+</button>
+                            <button th:if="${!cookieLike}" id="buttonLike" type="submit" name="action" value="like">+</button>
+                            <button th:if="${cookieDislike}" id="buttonDislikeSelected" type="submit" name="action" value="dislike">-</button>
+                            <button th:if="${!cookieDislike}" id="buttonDislike" type="submit" name="action" value="dislike">-</button>
                         </form>
                     </th>
                 </tr>
