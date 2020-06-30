@@ -314,6 +314,7 @@ public class EventController {
     @RequestMapping("/createEvent")
     public String createNewEvent(Model model){
         model.addAttribute("createdEvent", new EventCreationDTO());
+        model.addAttribute("allTypes", getAllEventsTypes());
         return "CreateEvent";
     }
 
