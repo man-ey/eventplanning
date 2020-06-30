@@ -297,7 +297,7 @@ public class EventController {
 
 
     @RequestMapping("/")
-    public String homepage(Model model, HttpServletRequest request, HttpServletResponse response){
+    public String homepage(Model model, HttpServletRequest request){
         String query = request.getParameter("q");
         if (query == null) {
             model.addAttribute("topTwenty", newestTwenty());
