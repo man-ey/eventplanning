@@ -235,11 +235,12 @@ public class EventController {
         }
     }
 
-    public void saveEvent(EventCreationDTO event) {
+    public boolean saveEvent(EventCreationDTO event) {
         if (!eventService.existsByID(event.getName())) {
             eventService.save(convertToEvent(event));
+            return true;
         } else {
-            throw new IllegalArgumentException("Event already exists!");
+            return false;
         }
     }
 
