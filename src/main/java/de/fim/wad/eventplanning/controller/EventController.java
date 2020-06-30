@@ -16,7 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -295,18 +297,16 @@ public class EventController {
 
 
     @RequestMapping("/")
-    public String homepage(Model model, HttpServletRequest request){
+    public String homepage(Model model, HttpServletRequest request, HttpServletResponse response){
         String query = request.getParameter("q");
         if (query == null) {
             model.addAttribute("topTwenty", newestTwenty());
-            model.addAttribute("allTypes", getAllEventsTypes());
-            return "index";
         } else {
             List<Event> events = eventService.filter(query, 20);
             model.addAttribute("topTwenty", events);
-            model.addAttribute("allTypes", getAllEventsTypes());
-            return "index";
         }
+        model.addAttribute("allTypes", getAllEventsTypes());
+        return "index";
     }
 
 
@@ -341,6 +341,30 @@ public class EventController {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         model.addAttribute("event", event);
+
+        //cookies
+        boolean cookieLike = false;
+        boolean cookieDislike = false;
+
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies!= null){
+            for(Cookie c:cookies){
+                System.out.println(c.getName());
+                System.out.println(c.getValue());
+                System.out.println("----");
+
+                if(c.getName().equals(eventName + "Like") && c.getValue().equals("true")){
+                    cookieLike = true;
+                }
+
+                if(c.getName().equals(eventName + "Dislike") && c.getValue().equals("true")){
+                    cookieDislike = true;
+                }
+            }
+        }
+        model.addAttribute("cookieLike", cookieLike);
+        model.addAttribute("cookieDislike", cookieDislike);
 
         //weather
         WeatherAPI weatherAPI = new WeatherAPI();
@@ -388,29 +412,85 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=dislike")
-    public String dislike(Model model, HttpServletRequest request) {
+    public String dislike(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
-        if (event != null) {
-            event.dislike();
-            eventService.update(event);
-        } else {
-            throw new IllegalArgumentException("Event does not exist.");
+
+        Cookie[] cookies = request.getCookies();
+        boolean foundCookie = false;
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(eventName + "Dislike") && cookie.getValue().equals("true")) {
+                    if (event != null) {
+                        event.removeDislike();
+                        eventService.update(event);
+                    } else {
+                        throw new IllegalArgumentException("Event does not exist.");
+                    }
+                    Cookie c = new Cookie(eventName + "Dislike", null);
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                    foundCookie = true;
+                }
+            }
         }
-        model.addAttribute("event", event);
+        if(!foundCookie){
+            if (event != null) {
+                event.dislike();
+                eventService.update(event);
+            } else {
+                throw new IllegalArgumentException("Event does not exist.");
+            }
+            response.addCookie(new Cookie(eventName + "Dislike", "true"));
+        }
+
         return detail(model, request);
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=like")
-    public String like(Model model, HttpServletRequest request) {
+    public String like(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
-        if (event != null) {
-            event.like();
-            eventService.update(event);
-        } else {
-            throw new IllegalArgumentException("Event does not exist.");
+
+        Cookie[] cookies = request.getCookies();
+        boolean foundCookie = false;
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(eventName + "Like") && cookie.getValue().equals("true")) {
+                    if (event != null) {
+                        event.removeLike();
+                        eventService.update(event);
+                    } else {
+                        throw new IllegalArgumentException("Event does not exist.");
+                    }
+                    Cookie c = new Cookie(eventName + "Like", null);
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                    foundCookie = true;
+                }
+            }
         }
+        if(!foundCookie){
+            if (event != null) {
+                event.like();
+                eventService.update(event);
+            } else {
+                throw new IllegalArgumentException("Event does not exist.");
+            }
+            response.addCookie(new Cookie(eventName + "Like", "true"));
+        }
+        /*
+        try {
+            String url = "http://localhost:8080/detail?name=" + eventName;
+            URL urlForGetRequest = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
+            connection.setRequestMethod("GET");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+         */
         return detail(model, request);
     }
 
@@ -418,6 +498,7 @@ public class EventController {
     public String createEvent(
             Model model,
             HttpServletRequest request,
+            HttpServletResponse response,
             @ModelAttribute(value = "createdEvent") EventCreationDTO eventCreationDTO,
             BindingResult bindingResult) {
         Date entered = eventCreationDTO.getDate();
