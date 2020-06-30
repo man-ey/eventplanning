@@ -16,7 +16,7 @@ Eine intuitive Suchbar, welche nach Eventnamen und Eventorte suchen kann befinde
 
 Ebenfalls im Header befindet sich oben links ein Schriftzug, der auf die Homepage/Indexseite verweist.
 
-Zur Navigation wird das Dropdownmenü benutzt, welches entsprechend weiterleitet.
+Zur Navigation wird das Dropdownmenü benutzt, welches entsprechend weiterleitet. Dieses listet auch die zum Aufrufzeitpunkt 3 meist gelikten Events.
 
 
 Falls man bereits auf der Homepage ein Event sieht, über das man mehr wissen möchte, kann man einfach den Namen anklicken für eine Detailansicht.
