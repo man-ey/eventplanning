@@ -34,7 +34,7 @@
             <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menü</button>
             <div class="dropdown-menu dropdown-menu-center" id="dropdownmenu">
                 <a class="dropdown-item" href="/createEvent">Event bekannt machen</a>
-                <a class="dropdown-item" href="/newestEvents">Neueste Events</a>
+                <a class="dropdown-item" href="/">Neueste Events</a>
                 <a class="dropdown-item" href="/topTwenty">Hottest 20</a>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Filtern<span class="caret"></span></button>
                     <ul class="dropdown-menu scrollable-menu" role="menu" id="filterDropdown">
-                        <li th:each="EventDTO : ${allTypes}"><a th:href="@{'searching?q=' + ${EventDTO.getEventType()}}" th:text="${EventDTO.getEventType()}"></a></li>
+                        <li th:each="EventDTO : ${allTypes}"><a th:href="@{'?q=' + ${EventDTO.getEventType()}}" th:text="${EventDTO.getEventType()}"></a></li>
                     </ul>
                 </div>
             </h2>

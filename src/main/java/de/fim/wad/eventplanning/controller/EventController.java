@@ -214,24 +214,16 @@ public class EventController {
     }
 
     @GetMapping("/api/top")
-    public List<EventDTO> topThree() {
-        List<EventDTO> result = new ArrayList<>();
-
-        for (Event event : eventService.top(3)) {
-            result.add(convertToEventDTO(event));
-        }
-        return result;
-    }
-
-    @RequestMapping("/api/topTwenty")
     public List<EventDTO> topTwenty() {
         List<EventDTO> result = new ArrayList<>();
 
-        for (Event event : eventService.top(3)) {
+        for (Event event : eventService.top(20)) {
             result.add(convertToEventDTO(event));
         }
         return result;
     }
+
+
 
     public void saveEventType(EventTypeDTO eventType) {
         if (!eventTypeService.existsByID(eventType.getEventType())) {
@@ -249,15 +241,6 @@ public class EventController {
         }
     }
 
-    @RequestMapping("/filter")
-    public List<EventDTO> testFilter() {
-        EventType e1 = eventTypeService.find("A");
-
-        EventType e2 = eventTypeService.find("B");
-
-        return filterType(convertToEventTypeDTO(e2), 20);
-    }
-
     public List<EventDTO> filterType(EventTypeDTO eventTypeDTO, int amount) {
         List<EventDTO> result = new ArrayList<>();
 
@@ -268,13 +251,6 @@ public class EventController {
         return result;
     }
 
-    /*
-    @RequestMapping("/search")
-    public List<EventDTO> testSearch(@RequestParam("q") String query) {
-        return search(query);
-    }
-
-     */
 
     public List<EventDTO> search(String query) {
         if (query == null) {
@@ -313,12 +289,22 @@ public class EventController {
         return result;
     }
 
+
     @RequestMapping("/")
-    public String homepage(Model model){
-        model.addAttribute("topTwenty", newestTwenty());
-        model.addAttribute("allTypes", getAllEventsTypes());
-        return "index";
+    public String homepage(Model model, HttpServletRequest request){
+        String query = request.getParameter("q");
+        if (query == null) {
+            model.addAttribute("topTwenty", newestTwenty());
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "index";
+        } else {
+            List<Event> events = eventService.filter(query, 20);
+            model.addAttribute("topTwenty", events);
+            model.addAttribute("allTypes", getAllEventsTypes());
+            return "index";
+        }
     }
+
 
     @RequestMapping("/createEvent")
     public String createNewEvent(Model model){
@@ -326,18 +312,13 @@ public class EventController {
         return "CreateEvent";
     }
 
+
     @RequestMapping("/topTwenty")
     public String topTwenty(Model model){
         model.addAttribute("topTwenty", topTwenty());
         return "TopTwenty";
     }
 
-    @RequestMapping("/newestEvents")
-    public String newestEvents(Model model){
-        model.addAttribute("topTwenty", newestTwenty());
-        model.addAttribute("allTypes", getAllEventsTypes());
-        return "index";
-    }
 
     @RequestMapping("/detail")
     public String detail(Model model, HttpServletRequest request){
@@ -380,14 +361,14 @@ public class EventController {
         return "EventDetail";
     }
 
+
     @RequestMapping("/search")
     public String searching(Model model, HttpServletRequest request){
         String query = request.getParameter("q");
-        Set<Event> events = eventService.search(query);
+        List<EventDTO> events = search(query);
         model.addAttribute("events", events);
         model.addAttribute("query", query);
         return "SearchingEvent";
     }
 
-    //q =
 }
