@@ -219,6 +219,16 @@ public class EventController {
         }
     }
 
+    @GetMapping("/api/topThree")
+    public List<EventDTO> topThree() {
+        List<EventDTO> result = new ArrayList<>();
+
+        for (Event event : eventService.top(3)) {
+            result.add(convertToEventDTO(event));
+        }
+        return result;
+    }
+
     @GetMapping("/api/top")
     public List<EventDTO> topTwenty() {
         List<EventDTO> result = new ArrayList<>();
@@ -299,6 +309,7 @@ public class EventController {
 
     @RequestMapping("/")
     public String homepage(Model model, HttpServletRequest request){
+        model.addAttribute("topThree", topThree());
         String query = request.getParameter("q");
         if (query == null) {
             model.addAttribute("topTwenty", newestTwenty());
@@ -313,25 +324,25 @@ public class EventController {
 
     @RequestMapping("/createEvent")
     public String createNewEvent(Model model, Boolean success, Boolean pastDate){
+        model.addAttribute("allTypes", getAllEventsTypes());
+        model.addAttribute("topThree", topThree());
         if (success!=null&&!success) {
             String errorMessage = "Eventname schon vergeben!";
             model.addAttribute("error", errorMessage);
-            model.addAttribute("allTypes", getAllEventsTypes());
             return "CreateEvent";
         } else if (pastDate!=null&&pastDate) {
             String errorMessage = "Datum liegt in der Vergangenheit!";
             model.addAttribute("error", errorMessage);
-            model.addAttribute("allTypes", getAllEventsTypes());
             return "CreateEvent";
         }
         model.addAttribute("createdEvent", new EventCreationDTO());
-        model.addAttribute("allTypes", getAllEventsTypes());
         return "CreateEvent";
     }
 
 
     @RequestMapping("/topTwenty")
     public String topTwenty(Model model){
+        model.addAttribute("topThree", topThree());
         model.addAttribute("topTwenty", topTwenty());
         return "TopTwenty";
     }
@@ -339,6 +350,7 @@ public class EventController {
 
     @RequestMapping("/detail")
     public String detail(Model model, HttpServletRequest request){
+        model.addAttribute("topThree", topThree());
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
         model.addAttribute("event", event);
@@ -405,6 +417,7 @@ public class EventController {
 
     @RequestMapping("/search")
     public String searching(Model model, HttpServletRequest request){
+        model.addAttribute("topThree", topThree());
         String query = request.getParameter("q");
         List<EventDTO> events = search(query);
         model.addAttribute("events", events);
@@ -413,6 +426,8 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=dislike")
+    public String dislike(Model model, HttpServletRequest request) {
+        model.addAttribute("topThree", topThree());
     public String dislike(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);
@@ -449,6 +464,8 @@ public class EventController {
     }
 
     @RequestMapping(value="/detail", method=RequestMethod.POST, params="action=like")
+    public String like(Model model, HttpServletRequest request) {
+        model.addAttribute("topThree", topThree());
     public String like(Model model, HttpServletRequest request, HttpServletResponse response) {
         String eventName = request.getParameter("name");
         Event event = eventService.find(eventName);

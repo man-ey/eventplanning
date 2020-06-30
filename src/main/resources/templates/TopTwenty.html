@@ -35,6 +35,11 @@
                 <a class="dropdown-item" href="http://localhost:8080/createEvent">Event bekannt machen</a>
                 <a class="dropdown-item" href="http://localhost:8080/">Neueste Events</a>
                 <a class="dropdown-item" href="http://localhost:8080/topTwenty">Hottest 20</a>
+                <br>
+                <a class="dropdown-item">MOST LIKED EVENTS</a>
+                <a class="dropdown-item" id="topEvent1" th:text="${topThree.get(0).getName()}" th:href="@{'/detail?name=' + ${topThree.get(0).getName()}}">Top 1 Event</a>
+                <a class="dropdown-item" id="topEvent2" th:text="${topThree.get(1).getName()}" th:href="@{'/detail?name=' + ${topThree.get(1).getName()}}">Top 2 Event</a>
+                <a class="dropdown-item" id="topEvent3" th:text="${topThree.get(2).getName()}" th:href="@{'/detail?name=' + ${topThree.get(2).getName()}}">Top 3 Event</a>
             </div>
         </div>
         <aside class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
