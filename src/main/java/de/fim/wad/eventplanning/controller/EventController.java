@@ -105,32 +105,56 @@ public class EventController {
     @GetMapping("/init")
     private void initDB() throws ParseException, IOException {
         if (isInit()) {
-            EventTypeDTO typ1 = new EventTypeDTO("A");
+            EventTypeDTO typ1 = new EventTypeDTO("Type_A");
 
-            EventTypeDTO typ2 = new EventTypeDTO("B");
+            EventTypeDTO typ2 = new EventTypeDTO("Type_B");
 
-            EventTypeDTO typ3 = new EventTypeDTO("C");
+            EventTypeDTO typ3 = new EventTypeDTO("Type_C");
 
             saveEventType(typ1);
             saveEventType(typ2);
             saveEventType(typ3);
 
-            EventCreationDTO ev1 = new EventCreationDTO("Event1",
-                    "First Event", "30.06.2020", "Frankfurt",
+            EventCreationDTO event1 = new EventCreationDTO("Event_1",
+                    "First Event", "01.07.2020", "Passau",
                     convertToEventType(typ2));
 
-            EventCreationDTO ev5 = new EventCreationDTO("Event5",
-                    "Fifth Event", "31.12.2020", "Munich",
+            EventCreationDTO event2 = new EventCreationDTO("Event_2",
+                    "Second Event", "31.12.2020", "München",
                     convertToEventType(typ1));
 
-            EventCreationDTO ev2 = new EventCreationDTO("PastEvent",
-                    "Sec Event", "31.12.2000",  convertToEventType(typ2),
+            EventCreationDTO event3 = new EventCreationDTO("Event_3",
+                    "Event in past.", "31.12.2000",  convertToEventType(typ2),
                     13.389191, 52.50536);
 
 
-            saveEvent(ev1);
-            saveEvent(ev5);
-            saveEvent(ev2);
+            saveEvent(event1);
+            saveEvent(event2);
+            saveEvent(event3);
+
+            for (int i = 0; i < 42; i++) {
+                like(event1.getName());
+            }
+
+            for (int i = 0; i < 23; i++) {
+                dislike(event1.getName());
+            }
+
+            for (int i = 0; i < 10; i++) {
+                like(event2.getName());
+            }
+
+            for (int i = 0; i < 2; i++) {
+                dislike(event2.getName());
+            }
+
+            for (int i = 0; i < 5; i++) {
+                like(event3.getName());
+            }
+
+            for (int i = 0; i < 1; i++) {
+                dislike(event3.getName());
+            }
         }
     }
 
